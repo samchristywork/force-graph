@@ -27,8 +27,12 @@ func visitNode(path, root string) ([]Node, []Edge) {
 
 	contents, err := ioutil.ReadFile(path + "/" + root + ".dm")
 	if err != nil {
-		fmt.Println(err)
-		return nil, nil
+		nodes := make([]Node, 0)
+		edges := make([]Edge, 0)
+
+		nodes = append(nodes, Node{name: root, color: "blue"})
+
+		return nodes, edges
 	}
 
 	tagMap := make(map[string]bool)
