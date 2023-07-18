@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for file in $(cat words); do
+  echo > $file.dm
+  for another in $(shuf words -n2); do
+    echo "["$another"]" >> $file.dm
+  done
+done
