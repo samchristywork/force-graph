@@ -24,5 +24,5 @@ canvas.addEventListener("mouseup", function(_) {
 
 window.addEventListener("resize", function() {
   canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
+  canvas.height = window.innerHeight * .9
 })

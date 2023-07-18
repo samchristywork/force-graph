@@ -86,6 +86,6 @@ function loop() {
 }
 
 canvas.width = window.innerWidth
-canvas.height = window.innerHeight
+canvas.height = window.innerHeight * .9
 
 loop()
