@@ -71,41 +71,39 @@ func visitNode(path, root string) ([]Node, []Edge) {
 	return nodes, edges
 }
 
-func process_files(path string, root string) {
+func process_files(path string, root string) string {
 	nodes, edges := visitNode(path, root)
 
-	f, err := os.Create("static/data.json")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	str := ""
 
-	fmt.Fprintf(f, "{\n")
-	fmt.Fprintf(f, "  \"bodies\": [\n")
+	str += "{\n"
+	str += "  \"bodies\": [\n"
 	nodelen := len(nodes)
 	counter := 0
 	for _, node := range nodes {
 		if counter == nodelen-1 {
-			fmt.Fprintf(f, "    { \"label\": \"%s\", \"color\": \"%s\" }\n", node.name, node.color)
+			str += fmt.Sprintf("    { \"label\": \"%s\", \"color\": \"%s\" }\n", node.name, node.color)
 		} else {
-			fmt.Fprintf(f, "    { \"label\": \"%s\", \"color\": \"%s\" },\n", node.name, node.color)
+			str += fmt.Sprintf("    { \"label\": \"%s\", \"color\": \"%s\" },\n", node.name, node.color)
 		}
 		counter++
 	}
 
-	fmt.Fprintf(f, "  ],\n")
-	fmt.Fprintf(f, "  \"springs\": [\n")
+	str += "  ],\n"
+	str += "  \"springs\": [\n"
 	edgelen := len(edges)
 	counter = 0
 	for _, edge := range edges {
 		if counter == edgelen-1 {
-			fmt.Fprintf(f, "    { \"body1\": \"%s\", \"body2\": \"%s\" }\n", edge.from, edge.to)
+			str += fmt.Sprintf("    { \"body1\": \"%s\", \"body2\": \"%s\" }\n", edge.from, edge.to)
 		} else {
-			fmt.Fprintf(f, "    { \"body1\": \"%s\", \"body2\": \"%s\" },\n", edge.from, edge.to)
+			str += fmt.Sprintf("    { \"body1\": \"%s\", \"body2\": \"%s\" },\n", edge.from, edge.to)
 		}
 		counter++
 	}
 
-	fmt.Fprintf(f, "  ]\n")
-	fmt.Fprintf(f, "}\n")
+	str += "  ]\n"
+	str += "}\n"
+
+	return str
 }
