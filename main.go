@@ -1,18 +1,20 @@
-package main;
+package main
 
 import (
-  "net/http"
+	"fmt"
+	"net/http"
 )
 
 func serve() {
-    dirname := "./static"
-    fs := http.FileServer(http.Dir(dirname))
-    http.Handle("/", fs)
+	dirname := "./static"
+	fs := http.FileServer(http.Dir(dirname))
+	http.Handle("/", fs)
 
-    fmt.Printf("Serving %s on HTTP port: 8080\n", dirname)
-    http.ListenAndServe(":8080", nil)
+	fmt.Printf("Serving %s on HTTP port: 8080\n", dirname)
+	http.ListenAndServe(":8080", nil)
 }
 
 func main() {
-  serve()
+	process_files("../../brain/vault", "vocab")
+	serve()
 }
