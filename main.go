@@ -6,7 +6,15 @@ import (
 )
 
 func dataHandler(w http.ResponseWriter, r *http.Request) {
-	str := process_files("./testData", "oxen")
+	query := r.URL.Query()
+	tag := query.Get("tag")
+
+	if tag == "" {
+		tag = "oxen"
+		return
+	}
+
+	str := process_files("./testData", tag)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(str))
 }
