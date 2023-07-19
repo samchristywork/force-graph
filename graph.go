@@ -72,6 +72,8 @@ func visitNode(path, root string) ([]Node, []Edge) {
 }
 
 func process_files(path string, root string) string {
+	visited = make(map[string]bool)
+
 	nodes, edges := visitNode(path, root)
 
 	str := ""
