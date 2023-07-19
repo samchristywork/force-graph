@@ -3,6 +3,7 @@ let ctx = canvas.getContext("2d")
 
 let fpsInput = document.getElementById("fps")
 let nameInput = document.getElementById("name")
+let tagInput = document.getElementById("tag")
 let toggleNamesInput = document.getElementById("toggleNames")
 let mouse = { x: 0, y: 0 }
 
@@ -14,27 +15,33 @@ let current_body_name = null
 let bodies = []
 let springs = []
 
-fetch("data.json")
-  .then(response => response.json())
-  .then(json => {
-    json.bodies.forEach(body => {
-      body.x = Math.random() * 500
-      body.y = Math.random() * 500
-      bodies.push(new_body(body.x, body.y, body.label, body.color))
-    })
-    json.springs.forEach(spring => {
-      let body1 = find_body(spring.body1)
-      let body2 = find_body(spring.body2)
+function getTag(tag) {
+  fetch("data.json?tag=" + tag)
+    .then(response => response.json())
+    .then(json => {
+      bodies = []
+      springs = []
 
-      if (body2 == null) {
-        // TODO: Fix data ingestion
-        return
-        body2 = new_body(0, 0, spring.body2)
-        bodies.push(body2)
-      }
-      springs.push(new_spring(body1, body2))
+      json.bodies.forEach(body => {
+        body.x = Math.random() * 500
+        body.y = Math.random() * 500
+        bodies.push(new_body(body.x, body.y, body.label, body.color))
+      })
+      json.springs.forEach(spring => {
+        let body1 = find_body(spring.body1)
+        let body2 = find_body(spring.body2)
+
+        if (body2 == null) {
+          // TODO: Fix data ingestion
+          return
+          body2 = new_body(0, 0, spring.body2)
+          bodies.push(body2)
+        }
+        springs.push(new_spring(body1, body2))
+      })
     })
-  })
+}
+getTag("vocab")
 
 function pretty_print(body) {
   return `pos: (${body.pos.x.toFixed(2)}, ${body.pos.y.toFixed(2)})<br>
@@ -84,6 +91,16 @@ function loop() {
     window.requestAnimationFrame(loop)
   }
 }
+
+tagInput.addEventListener("keyup", function(event) {
+  console.log(event.keyCode)
+  if (event.keyCode === 13) {
+    console.log("enter")
+    event.preventDefault()
+    getTag(tagInput.value)
+    tagInput.value = ""
+  }
+})
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight * .9
