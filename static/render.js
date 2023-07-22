@@ -53,4 +53,3 @@ function draw() {
   springs.forEach(draw_spring)
   bodies.forEach(draw_body)
 }
-
