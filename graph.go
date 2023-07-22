@@ -29,7 +29,7 @@ func visitNode(path, root string) ([]Node, []Edge) {
 		nodes := make([]Node, 0)
 		edges := make([]Edge, 0)
 
-		nodes = append(nodes, Node{name: root, color: "blue"})
+		nodes = append(nodes, Node{name: root, color: "red"})
 
 		return nodes, edges
 	}
@@ -58,7 +58,7 @@ func visitNode(path, root string) ([]Node, []Edge) {
 	nodes := make([]Node, 0)
 	edges := make([]Edge, 0)
 
-	nodes = append(nodes, Node{name: root, color: "red"})
+	nodes = append(nodes, Node{name: root, color: "blue"})
 
 	for tagname := range tagMap {
 		new_nodes, new_edges := visitNode(path, tagname)
