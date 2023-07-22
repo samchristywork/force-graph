@@ -12,9 +12,19 @@ function draw_body(body) {
   let y = body.pos.y / 500 * canvas.height
   ctx.arc(x, y, 3, 0, 2 * Math.PI)
   ctx.fill()
-  ctx.fillStyle = "#222222"
-
   if (toggleNamesInput.checked) {
+    ctx.fillStyle = "#222222"
+
+    if (nameFocusInput.checked) {
+      dx = x - mouse.x * canvas.width / 500
+      dy = y - mouse.y * canvas.height / 500
+      distance = Math.sqrt(dx ** 2 + dy ** 2)
+      if (distance < 200) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.9)"
+      }else{
+        ctx.fillStyle = "rgba(0, 0, 0, 0.2)"
+      }
+    }
     let font_size = 12
     ctx.font = font_size + "px Arial"
     ctx.fillText(body.label, x + 3, y - 3)

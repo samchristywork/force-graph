@@ -5,6 +5,7 @@ let fpsInput = document.getElementById("fps")
 let nameInput = document.getElementById("name")
 let tagInput = document.getElementById("tag")
 let toggleNamesInput = document.getElementById("toggleNames")
+let nameFocusInput = document.getElementById("nameFocus")
 let mouse = { x: 0, y: 0 }
 
 let frame = 0
