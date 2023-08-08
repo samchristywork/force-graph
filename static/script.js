@@ -24,10 +24,9 @@ function getTag(tag) {
       springs = []
 
       json.bodies.forEach(body => {
-        body.x = Math.random() * 500
-        body.y = Math.random() * 500
         bodies.push(new_body(body.x, body.y, body.label, body.color))
       })
+
       json.springs.forEach(spring => {
         let body1 = find_body(spring.body1)
         let body2 = find_body(spring.body2)

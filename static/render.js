@@ -21,7 +21,7 @@ function draw_body(body) {
       distance = Math.sqrt(dx ** 2 + dy ** 2)
       if (distance < 200) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.9)"
-      }else{
+      } else {
         ctx.fillStyle = "rgba(0, 0, 0, 0.2)"
       }
     }
