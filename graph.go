@@ -22,6 +22,70 @@ type Node struct {
 
 var visited = make(map[string]bool)
 
+func hashToColor(tag string) string {
+	if tag == "" {
+		return "blue"
+	}
+
+	hash := 0
+	for i := 0; i < len(tag); i++ {
+		hash += int(tag[i])
+	}
+
+	hash = hash % 12
+
+	switch hash {
+	case 0:
+		return "red"
+	case 1:
+		return "green"
+	case 2:
+		return "blue"
+	case 3:
+		return "yellow"
+	case 4:
+		return "orange"
+	case 5:
+		return "purple"
+	case 6:
+		return "cyan"
+	case 7:
+		return "magenta"
+	case 8:
+		return "lime"
+	case 9:
+		return "pink"
+	case 10:
+		return "teal"
+	case 11:
+		return "lavender"
+	}
+
+	return "blue"
+}
+
+func extractTag(contents []byte) string {
+	lines := strings.Split(string(contents), "\n")
+
+	if len(lines) < 3 {
+		return ""
+	}
+
+	thirdLine := strings.Split(lines[2], " ")
+
+	if len(thirdLine) < 2 {
+		return ""
+	}
+
+	if thirdLine[0] != "tags:" {
+		return ""
+	}
+
+	tag := thirdLine[1]
+
+	return tag
+}
+
 func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float64) ([]Node, []Edge) {
 	if _, ok := visited[root]; ok {
 		return nil, nil
@@ -40,6 +104,8 @@ func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float6
 	}
 
 	tagMap := make(map[string]bool)
+
+	mytag := extractTag(contents)
 
 	for i := 0; i < len(contents); i++ {
 		if contents[i] == '[' {
@@ -63,7 +129,9 @@ func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float6
 	nodes := make([]Node, 0)
 	edges := make([]Edge, 0)
 
-	nodes = append(nodes, Node{name: root, color: "blue", depth: depth, arcBegin: arcBegin, arcEnd: arcEnd})
+	color := hashToColor(mytag)
+
+	nodes = append(nodes, Node{name: root, color: color, depth: depth, arcBegin: arcBegin, arcEnd: arcEnd})
 
 	keys := make([]string, 0, len(tagMap))
 	for k := range tagMap {
