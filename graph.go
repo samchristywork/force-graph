@@ -22,9 +22,16 @@ type Node struct {
 
 var visited = make(map[string]bool)
 
+var colorDefinitions = map[string]string{
+}
+
 func hashToColor(tag string) string {
 	if tag == "" {
 		return "blue"
+	}
+
+	if color, ok := colorDefinitions[tag]; ok {
+		return color
 	}
 
 	hash := 0
