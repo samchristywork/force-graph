@@ -10,6 +10,9 @@ function new_body(x, y, label, color) {
   }
 }
 
+const max_velocity = 500.0
+const max_acceleration = 10.0
+
 function new_spring(body1, body2) {
   return {
     body1: body1,
@@ -38,11 +41,16 @@ function update(body, dt) {
     y: body.vel.y + (body.acc.y + new_acc.y) * dt * 0.5
   }
 
-  let speed_limit = 1000
   let speed = Math.sqrt(new_vel.x * new_vel.x + new_vel.y * new_vel.y)
-  if (speed > speed_limit) {
-    new_vel.x *= speed_limit / speed
-    new_vel.y *= speed_limit / speed
+  if (speed > max_velocity) {
+    new_vel.x *= max_velocity / speed
+    new_vel.y *= max_velocity / speed
+  }
+
+  let acceleration = Math.sqrt(new_acc.x * new_acc.x + new_acc.y * new_acc.y)
+  if (acceleration > max_acceleration) {
+    new_acc.x *= max_acceleration / acceleration
+    new_acc.y *= max_acceleration / acceleration
   }
 
   body.pos = new_pos
