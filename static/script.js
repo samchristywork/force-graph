@@ -31,14 +31,21 @@ function getTag(tag) {
         let body1 = find_body(spring.body1)
         let body2 = find_body(spring.body2)
 
+        if (body1 == null) {
+          // TODO: implement
+          return
+        }
+
         if (body2 == null) {
-          // TODO: Fix data ingestion
+          // TODO: implement
           return
           body2 = new_body(0, 0, spring.body2)
           bodies.push(body2)
         }
         springs.push(new_spring(body1, body2))
       })
+
+      loop()
     })
 }
 getTag("vocab")
@@ -81,13 +88,14 @@ function get_body_under_mouse() {
 
 function loop() {
   frame += 1
-  if (frame < 5000) {
+  if (frame < 3000) {
     update_bodies()
     update_springs()
     update_repulsion()
     draw()
     update_fps()
     circular_boundary()
+
     window.requestAnimationFrame(loop)
   }
 }
@@ -104,5 +112,3 @@ tagInput.addEventListener("keyup", function(event) {
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight * .9
-
-loop()

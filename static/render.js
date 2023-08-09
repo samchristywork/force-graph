@@ -10,7 +10,7 @@ function draw_body(body) {
   ctx.beginPath()
   let x = body.pos.x / 500 * canvas.width
   let y = body.pos.y / 500 * canvas.height
-  ctx.arc(x, y, 3, 0, 2 * Math.PI)
+  ctx.arc(x, y, 8, 0, 2 * Math.PI)
   ctx.fill()
   if (toggleNamesInput.checked) {
     ctx.fillStyle = "#222222"
@@ -52,4 +52,8 @@ function draw() {
 
   springs.forEach(draw_spring)
   bodies.forEach(draw_body)
+
+  ctx.fillStyle = "#222222"
+  ctx.font = "12px Arial"
+  ctx.fillText(bodies.length + " bodies", canvas.width - 70, canvas.height - 10)
 }

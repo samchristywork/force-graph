@@ -3,7 +3,7 @@ function new_body(x, y, label, color) {
     label: label,
     color: color,
     pos: { x: x, y: y },
-    vel: { x: 0.0, y: 10.0 },
+    vel: { x: 0.0, y: 0.0 },
     acc: { x: 0.0, y: 0.0 },
     mass: 1.0,
     drag: 5.0
