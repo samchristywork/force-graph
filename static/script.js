@@ -48,7 +48,15 @@ function getTag(tag) {
       loop()
     })
 }
-getTag("vocab")
+
+let urlParams = new URLSearchParams(window.location.search)
+let tagParam = urlParams.get("tag")
+tagInput.value = tagParam
+if (tagParam != null) {
+  getTag(tagParam)
+} else {
+  getTag("main")
+}
 
 function pretty_print(body) {
   return `pos: (${body.pos.x.toFixed(2)}, ${body.pos.y.toFixed(2)})<br>
@@ -106,6 +114,13 @@ tagInput.addEventListener("keyup", function(event) {
     console.log("enter")
     event.preventDefault()
     getTag(tagInput.value)
+
+    window.history.pushState(
+      null,
+      null,
+      window.location.pathname + "?tag=" + tagInput.value
+    )
+
     tagInput.value = ""
   }
 })
