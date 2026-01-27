@@ -11,7 +11,6 @@ func dataHandler(w http.ResponseWriter, r *http.Request) {
 
 	if tag == "" {
 		tag = "oxen"
-		return
 	}
 
 	str := process_files("./testData", tag)
