@@ -32,14 +32,12 @@ function getTag(tag) {
         let body2 = find_body(spring.body2)
 
         if (body1 == null) {
-          // TODO: implement
-          return
+          body1 = new_body(250, 250, spring.body1)
+          bodies.push(body1)
         }
 
         if (body2 == null) {
-          // TODO: implement
-          return
-          body2 = new_body(0, 0, spring.body2)
+          body2 = new_body(250, 250, spring.body2)
           bodies.push(body2)
         }
         springs.push(new_spring(body1, body2))
