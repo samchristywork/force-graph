@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -26,7 +27,7 @@ func serve() {
 	http.Handle("/data.json", http.HandlerFunc(dataHandler))
 
 	fmt.Printf("Serving %s on HTTP port: 8080\n", dirname)
-	http.ListenAndServe(":8080", nil)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func main() {
