@@ -20,8 +20,6 @@ type Node struct {
 	arcEnd   float64
 }
 
-var visited = make(map[string]bool)
-
 var colorDefinitions = map[string]string{
 }
 
@@ -93,7 +91,7 @@ func extractTag(contents []byte) string {
 	return tag
 }
 
-func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float64) ([]Node, []Edge) {
+func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float64, visited map[string]bool) ([]Node, []Edge) {
 	if _, ok := visited[root]; ok {
 		return nil, nil
 	}
@@ -151,7 +149,7 @@ func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float6
 		arcBegin := arcBegin + (allowedSpace * section)
 		arcEnd := arcBegin + (allowedSpace / float64(len(tagMap)))
 
-		new_nodes, new_edges := visitNode(path, tagname, depth+1, arcBegin, arcEnd)
+		new_nodes, new_edges := visitNode(path, tagname, depth+1, arcBegin, arcEnd, visited)
 
 		nodes = append(nodes, new_nodes...)
 		edges = append(edges, new_edges...)
@@ -163,9 +161,9 @@ func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float6
 }
 
 func process_files(path string, root string) string {
-	visited = make(map[string]bool)
+	visited := make(map[string]bool)
 
-	nodes, edges := visitNode(path, root, 0, 0.0, 1.0)
+	nodes, edges := visitNode(path, root, 0, 0.0, 1.0, visited)
 
 	str := ""
 
