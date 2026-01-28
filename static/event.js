@@ -1,6 +1,6 @@
-canvas.addEventListener("mousedown", function(_) {
+canvas.addEventListener("mousedown", function(event) {
   frame = 0
-  let body = get_body_under_mouse()
+  let body = get_body_under_mouse(event)
   if (body) {
     current_body = body
   }

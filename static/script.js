@@ -77,7 +77,7 @@ function update_fps() {
   counter += 1
 }
 
-function get_body_under_mouse() {
+function get_body_under_mouse(event) {
   let rect = canvas.getBoundingClientRect()
   let x = event.clientX - rect.left
   let y = event.clientY - rect.top
