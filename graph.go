@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math"
+	"os"
 	"strings"
 )
 
@@ -98,7 +98,7 @@ func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float6
 
 	visited[root] = true
 
-	contents, err := ioutil.ReadFile(path + "/" + root + ".dm")
+	contents, err := os.ReadFile(path + "/" + root + ".dm")
 	if err != nil {
 		nodes := make([]Node, 0)
 		edges := make([]Edge, 0)
