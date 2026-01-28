@@ -92,7 +92,7 @@ function update_repulsion() {
     for (let j = i + 1; j < bodies.length; j++) {
       let dx = bodies[j].pos.x - bodies[i].pos.x
       let dy = bodies[j].pos.y - bodies[i].pos.y
-      let dist = Math.sqrt(dx * dx + dy * dy)
+      let dist = Math.max(Math.sqrt(dx * dx + dy * dy), 0.1)
 
       let force = -1000000.0 / (dist * dist * dist)
       let fx = force * dx
