@@ -76,7 +76,7 @@ function update_springs() {
   springs.forEach(spring => {
     let dx = spring.body2.pos.x - spring.body1.pos.x
     let dy = spring.body2.pos.y - spring.body1.pos.y
-    let dist = Math.sqrt(dx * dx + dy * dy)
+    let dist = Math.max(Math.sqrt(dx * dx + dy * dy), 0.1)
     let force = spring.k * (dist - spring.l)
     let fx = force * dx / dist
     let fy = force * dy / dist
