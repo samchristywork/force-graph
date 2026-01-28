@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"math"
 	"os"
 	"strings"
@@ -160,44 +160,43 @@ func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float6
 	return nodes, edges
 }
 
+type bodyJSON struct {
+	Label string  `json:"label"`
+	Color string  `json:"color"`
+	X     float64 `json:"x"`
+	Y     float64 `json:"y"`
+}
+
+type springJSON struct {
+	Body1 string `json:"body1"`
+	Body2 string `json:"body2"`
+}
+
+type graphJSON struct {
+	Bodies  []bodyJSON   `json:"bodies"`
+	Springs []springJSON `json:"springs"`
+}
+
 func process_files(path string, root string) string {
 	visited := make(map[string]bool)
 
 	nodes, edges := visitNode(path, root, 0, 0.0, 1.0, visited)
 
-	str := ""
+	g := graphJSON{
+		Bodies:  make([]bodyJSON, 0, len(nodes)),
+		Springs: make([]springJSON, 0, len(edges)),
+	}
 
-	str += "{\n"
-	str += "  \"bodies\": [\n"
-	nodelen := len(nodes)
-	counter := 0
 	for _, node := range nodes {
 		x := 250.0 + 50.0*node.depth*math.Cos(node.arcBegin*math.Pi*2.0)
 		y := 250.0 + 50.0*node.depth*math.Sin(node.arcBegin*math.Pi*2.0)
-
-		if counter == nodelen-1 {
-			str += fmt.Sprintf("    { \"label\": \"%s\", \"color\": \"%s\", \"x\": %f, \"y\": %f }\n", node.name, node.color, x, y)
-		} else {
-			str += fmt.Sprintf("    { \"label\": \"%s\", \"color\": \"%s\", \"x\": %f, \"y\": %f },\n", node.name, node.color, x, y)
-		}
-		counter++
+		g.Bodies = append(g.Bodies, bodyJSON{Label: node.name, Color: node.color, X: x, Y: y})
 	}
 
-	str += "  ],\n"
-	str += "  \"springs\": [\n"
-	edgelen := len(edges)
-	counter = 0
 	for _, edge := range edges {
-		if counter == edgelen-1 {
-			str += fmt.Sprintf("    { \"body1\": \"%s\", \"body2\": \"%s\" }\n", edge.from, edge.to)
-		} else {
-			str += fmt.Sprintf("    { \"body1\": \"%s\", \"body2\": \"%s\" },\n", edge.from, edge.to)
-		}
-		counter++
+		g.Springs = append(g.Springs, springJSON{Body1: edge.from, Body2: edge.to})
 	}
 
-	str += "  ]\n"
-	str += "}\n"
-
-	return str
+	b, _ := json.Marshal(g)
+	return string(b)
 }
