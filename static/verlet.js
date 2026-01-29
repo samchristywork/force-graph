@@ -1,3 +1,9 @@
+let physicsK = 100
+let physicsL = 10
+let physicsDrag = 5
+let physicsRepulsion = 1000000
+let physicsBoundary = 200
+
 function new_body(x, y, label, color) {
   return {
     label: label,
@@ -6,7 +12,6 @@ function new_body(x, y, label, color) {
     vel: { x: 0.0, y: 0.0 },
     acc: { x: 0.0, y: 0.0 },
     mass: 1.0,
-    drag: 5.0
   }
 }
 
@@ -17,8 +22,6 @@ function new_spring(body1, body2) {
   return {
     body1: body1,
     body2: body2,
-    k: 100,
-    l: 10
   }
 }
 
@@ -33,8 +36,8 @@ function update(body, dt) {
   }
 
   let new_acc = { x: 0.0, y: 0.0 }
-  new_acc.x += -body.drag * body.vel.x
-  new_acc.y += -body.drag * body.vel.y
+  new_acc.x += -physicsDrag * body.vel.x
+  new_acc.y += -physicsDrag * body.vel.y
 
   let new_vel = {
     x: body.vel.x + (body.acc.x + new_acc.x) * dt * 0.5,
@@ -77,7 +80,7 @@ function update_springs() {
     let dx = spring.body2.pos.x - spring.body1.pos.x
     let dy = spring.body2.pos.y - spring.body1.pos.y
     let dist = Math.max(Math.sqrt(dx * dx + dy * dy), 0.1)
-    let force = spring.k * (dist - spring.l)
+    let force = physicsK * (dist - physicsL)
     let fx = force * dx / dist
     let fy = force * dy / dist
     spring.body1.acc.x += fx / spring.body1.mass
@@ -94,7 +97,7 @@ function update_repulsion() {
       let dy = bodies[j].pos.y - bodies[i].pos.y
       let dist = Math.max(Math.sqrt(dx * dx + dy * dy), 0.1)
 
-      let force = -1000000.0 / (dist * dist * dist)
+      let force = -physicsRepulsion / (dist * dist * dist)
       let fx = force * dx
       let fy = force * dy
       bodies[i].acc.x += fx / bodies[i].mass
@@ -114,9 +117,9 @@ function circular_boundary() {
     let dx = body.pos.x - 250
     let dy = body.pos.y - 250
     let dist = Math.sqrt(dx * dx + dy * dy)
-    if (dist > 200) {
-      body.pos.x = 250 + 200 * dx / dist
-      body.pos.y = 250 + 200 * dy / dist
+    if (dist > physicsBoundary) {
+      body.pos.x = 250 + physicsBoundary * dx / dist
+      body.pos.y = 250 + physicsBoundary * dy / dist
     }
   })
 }

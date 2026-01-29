@@ -9,6 +9,23 @@ let nameFocusInput = document.getElementById("nameFocus")
 let restartButton = document.getElementById("restart")
 let mouse = { x: 0, y: 0 }
 
+function makeSlider(id, valId, setter) {
+  let el = document.getElementById(id)
+  let valEl = document.getElementById(valId)
+  el.addEventListener("input", function() {
+    setter(parseFloat(el.value))
+    valEl.textContent = el.value
+    frame = 0
+    if (!loopRunning) loop()
+  })
+}
+
+makeSlider("sliderK",         "sliderKVal",         v => physicsK = v)
+makeSlider("sliderL",         "sliderLVal",         v => physicsL = v)
+makeSlider("sliderDrag",      "sliderDragVal",      v => physicsDrag = v)
+makeSlider("sliderRepulsion", "sliderRepulsionVal", v => physicsRepulsion = v)
+makeSlider("sliderBoundary",  "sliderBoundaryVal",  v => physicsBoundary = v)
+
 let frame = 0
 let loopRunning = false
 
