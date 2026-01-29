@@ -8,6 +8,7 @@ let toggleNamesInput = document.getElementById("toggleNames")
 let nameFocusInput = document.getElementById("nameFocus")
 let restartButton = document.getElementById("restart")
 let pauseButton = document.getElementById("pause")
+let exportPngButton = document.getElementById("exportPng")
 let mouse = { x: 0, y: 0 }
 
 function makeSlider(id, valId, setter) {
@@ -163,6 +164,13 @@ pauseButton.addEventListener("click", function() {
   paused = !paused
   pauseButton.textContent = paused ? "Resume" : "Pause"
   if (!paused && !loopRunning) loop()
+})
+
+exportPngButton.addEventListener("click", function() {
+  let a = document.createElement("a")
+  a.href = canvas.toDataURL("image/png")
+  a.download = "graph.png"
+  a.click()
 })
 
 canvas.width = window.innerWidth
