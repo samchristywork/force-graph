@@ -1,6 +1,11 @@
+let mouseDownPos = null
+let mouseDownBody = null
+
 canvas.addEventListener("mousedown", function(event) {
   frame = 0
   let body = get_body_under_mouse(event)
+  mouseDownPos = { x: event.clientX, y: event.clientY }
+  mouseDownBody = body
   if (body) {
     current_body = body
   }
@@ -20,8 +25,19 @@ canvas.addEventListener("mousemove", function(event) {
   }
 })
 
-canvas.addEventListener("mouseup", function(_) {
+canvas.addEventListener("mouseup", function(event) {
+  if (mouseDownBody) {
+    let dx = event.clientX - mouseDownPos.x
+    let dy = event.clientY - mouseDownPos.y
+    let dist = Math.sqrt(dx * dx + dy * dy)
+    if (dist < 5) {
+      getTag(mouseDownBody.label)
+      window.history.pushState(null, null, window.location.pathname + "?tag=" + mouseDownBody.label)
+    }
+  }
   current_body = null
+  mouseDownBody = null
+  mouseDownPos = null
 })
 
 window.addEventListener("resize", function() {
