@@ -9,6 +9,7 @@ let nameFocusInput = document.getElementById("nameFocus")
 let mouse = { x: 0, y: 0 }
 
 let frame = 0
+let loopRunning = false
 
 let current_body = null
 let current_body_name = null
@@ -93,6 +94,7 @@ function get_body_under_mouse(event) {
 }
 
 function loop() {
+  loopRunning = true
   frame += 1
   if (frame < 3000) {
     update_bodies()
@@ -103,6 +105,8 @@ function loop() {
     circular_boundary()
 
     window.requestAnimationFrame(loop)
+  } else {
+    loopRunning = false
   }
 }
 

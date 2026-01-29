@@ -4,6 +4,7 @@ canvas.addEventListener("mousedown", function(event) {
   if (body) {
     current_body = body
   }
+  if (!loopRunning) loop()
 })
 
 canvas.addEventListener("mousemove", function(event) {
@@ -15,6 +16,7 @@ canvas.addEventListener("mousemove", function(event) {
   if (current_body) {
     current_body.pos.x = mouse.x
     current_body.pos.y = mouse.y
+    if (!loopRunning) loop()
   }
 })
 
