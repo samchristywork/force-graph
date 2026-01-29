@@ -11,6 +11,19 @@ let pauseButton = document.getElementById("pause")
 let exportPngButton = document.getElementById("exportPng")
 let mouse = { x: 0, y: 0 }
 
+let viewZoom = 1
+let viewPanX = 0
+let viewPanY = 0
+
+function screenToLogical(sx, sy) {
+  let cx = canvas.width / 2
+  let cy = canvas.height / 2
+  return {
+    x: ((sx - cx - viewPanX) / viewZoom + cx) * 500 / canvas.width,
+    y: ((sy - cy - viewPanY) / viewZoom + cy) * 500 / canvas.height
+  }
+}
+
 function makeSlider(id, valId, setter) {
   let el = document.getElementById(id)
   let valEl = document.getElementById(valId)
@@ -105,11 +118,10 @@ function update_fps() {
 
 function get_body_under_mouse(event) {
   let rect = canvas.getBoundingClientRect()
-  let x = event.clientX - rect.left
-  let y = event.clientY - rect.top
+  let pos = screenToLogical(event.clientX - rect.left, event.clientY - rect.top)
   for (let i = 0; i < bodies.length; i++) {
-    let dx = bodies[i].pos.x - x / canvas.width * 500
-    let dy = bodies[i].pos.y - y / canvas.height * 500
+    let dx = bodies[i].pos.x - pos.x
+    let dy = bodies[i].pos.y - pos.y
     let dist = Math.sqrt(dx * dx + dy * dy)
     if (dist < 10) {
       return bodies[i]

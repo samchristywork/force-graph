@@ -16,10 +16,10 @@ function draw_body(body) {
     ctx.fillStyle = "#222222"
 
     if (nameFocusInput.checked) {
-      dx = x - mouse.x * canvas.width / 500
-      dy = y - mouse.y * canvas.height / 500
-      distance = Math.sqrt(dx ** 2 + dy ** 2)
-      if (distance < 200) {
+      let mdx = body.pos.x - mouse.x
+      let mdy = body.pos.y - mouse.y
+      distance = Math.sqrt(mdx ** 2 + mdy ** 2)
+      if (distance < 80) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.9)"
       } else {
         ctx.fillStyle = "rgba(0, 0, 0, 0.2)"
@@ -50,8 +50,15 @@ function draw() {
   ctx.fillStyle = "#cccccc"
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+  ctx.save()
+  let cx = canvas.width / 2
+  let cy = canvas.height / 2
+  ctx.translate(cx + viewPanX, cy + viewPanY)
+  ctx.scale(viewZoom, viewZoom)
+  ctx.translate(-cx, -cy)
   springs.forEach(draw_spring)
   bodies.forEach(draw_body)
+  ctx.restore()
 
   ctx.fillStyle = "#222222"
   ctx.font = "12px Arial"
