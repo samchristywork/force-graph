@@ -7,6 +7,7 @@ let tagInput = document.getElementById("tag")
 let toggleNamesInput = document.getElementById("toggleNames")
 let nameFocusInput = document.getElementById("nameFocus")
 let restartButton = document.getElementById("restart")
+let pauseButton = document.getElementById("pause")
 let mouse = { x: 0, y: 0 }
 
 function makeSlider(id, valId, setter) {
@@ -28,6 +29,7 @@ makeSlider("sliderBoundary",  "sliderBoundaryVal",  v => physicsBoundary = v)
 
 let frame = 0
 let loopRunning = false
+let paused = false
 
 let current_body = null
 let current_body_name = null
@@ -117,6 +119,10 @@ function get_body_under_mouse(event) {
 
 function loop() {
   loopRunning = true
+  if (paused) {
+    loopRunning = false
+    return
+  }
   frame += 1
   if (frame < 3000) {
     update_bodies()
@@ -151,6 +157,12 @@ tagInput.addEventListener("keyup", function(event) {
 
 restartButton.addEventListener("click", function() {
   getTag(currentTag)
+})
+
+pauseButton.addEventListener("click", function() {
+  paused = !paused
+  pauseButton.textContent = paused ? "Resume" : "Pause"
+  if (!paused && !loopRunning) loop()
 })
 
 canvas.width = window.innerWidth
