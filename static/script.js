@@ -6,6 +6,7 @@ let nameInput = document.getElementById("name")
 let tagInput = document.getElementById("tag")
 let toggleNamesInput = document.getElementById("toggleNames")
 let nameFocusInput = document.getElementById("nameFocus")
+let restartButton = document.getElementById("restart")
 let mouse = { x: 0, y: 0 }
 
 let frame = 0
@@ -18,6 +19,7 @@ let bodies = []
 let springs = []
 
 function getTag(tag) {
+  currentTag = tag
   fetch("data.json?tag=" + tag)
     .then(response => response.json())
     .then(json => {
@@ -48,13 +50,16 @@ function getTag(tag) {
     })
 }
 
+let currentTag = "main"
+
 let urlParams = new URLSearchParams(window.location.search)
 let tagParam = urlParams.get("tag")
 tagInput.value = tagParam
 if (tagParam != null) {
+  currentTag = tagParam
   getTag(tagParam)
 } else {
-  getTag("main")
+  getTag(currentTag)
 }
 
 function pretty_print(body) {
@@ -125,6 +130,10 @@ tagInput.addEventListener("keyup", function(event) {
 
     tagInput.value = ""
   }
+})
+
+restartButton.addEventListener("click", function() {
+  getTag(currentTag)
 })
 
 canvas.width = window.innerWidth
