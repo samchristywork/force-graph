@@ -225,5 +225,9 @@ exportPngButton.addEventListener("click", function() {
   a.click()
 })
 
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight * .9
+function resizeCanvas() {
+  let container = document.getElementById("graph-container")
+  canvas.width = container.clientWidth
+  canvas.height = container.clientHeight
+}
+resizeCanvas()

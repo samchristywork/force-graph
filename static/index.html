@@ -11,26 +11,40 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <canvas width=500 height=500 id="canvas"></canvas>
-    <div id="fps"></div>
-    <div id="error" style="color:red;display:none"></div>
-    <div id="detail" style="border:1px solid #999;padding:4px;margin:4px 0;display:none">
-      <div id="detailLabel"></div>
-      <div id="detailColor"></div>
-      <div id="detailDegree"></div>
+    <div id="graph-container">
+      <canvas id="canvas"></canvas>
+      <div id="detail">
+        <div id="detailLabel"></div>
+        <div id="detailColor"></div>
+        <div id="detailDegree"></div>
+      </div>
+      <div id="error"></div>
     </div>
-    <input id="name"></input>
-    <input id="tag"></input>
-    <input id="toggleNames" type="checkbox" checked>Toggle Names</input>
-    <input id="nameFocus" type="checkbox">Toggle Name Focus</input>
-    <button id="restart">Restart</button>
-    <button id="pause">Pause</button>
-    <button id="exportPng">Export PNG</button>
-    <br>
-    <label>Spring k: <input id="sliderK" type="range" min="1" max="500" value="100"><span id="sliderKVal">100</span></label>
-    <label>Rest length: <input id="sliderL" type="range" min="1" max="200" value="10"><span id="sliderLVal">10</span></label>
-    <label>Drag: <input id="sliderDrag" type="range" min="0" max="20" step="0.1" value="5"><span id="sliderDragVal">5</span></label>
-    <label>Repulsion: <input id="sliderRepulsion" type="range" min="0" max="5000000" step="100000" value="1000000"><span id="sliderRepulsionVal">1000000</span></label>
-    <label>Boundary: <input id="sliderBoundary" type="range" min="50" max="400" step="10" value="200"><span id="sliderBoundaryVal">200</span></label>
+
+    <div id="toolbar">
+      <div class="toolbar-group">
+        <input id="name" placeholder="Filter labels…" title="Highlight matching nodes">
+        <input id="tag" placeholder="Jump to tag…" title="Press Enter to navigate">
+      </div>
+      <div class="toolbar-group">
+        <button id="restart">&#8635; Restart</button>
+        <button id="pause">&#9646;&#9646; Pause</button>
+        <button id="exportPng">&#8659; Export PNG</button>
+      </div>
+      <div class="toolbar-group">
+        <label class="check-label"><input id="toggleNames" type="checkbox" checked> Labels</label>
+        <label class="check-label"><input id="nameFocus" type="checkbox"> Focus</label>
+      </div>
+      <div id="fps"></div>
+    </div>
+
+    <div id="physics-panel">
+      <span class="physics-title">Physics</span>
+      <label class="slider-label">k <input id="sliderK" type="range" min="1" max="500" value="100"><span id="sliderKVal" class="slider-val">100</span></label>
+      <label class="slider-label">length <input id="sliderL" type="range" min="1" max="200" value="10"><span id="sliderLVal" class="slider-val">10</span></label>
+      <label class="slider-label">drag <input id="sliderDrag" type="range" min="0" max="20" step="0.1" value="5"><span id="sliderDragVal" class="slider-val">5</span></label>
+      <label class="slider-label">repulsion <input id="sliderRepulsion" type="range" min="0" max="5000000" step="100000" value="1000000"><span id="sliderRepulsionVal" class="slider-val">1000000</span></label>
+      <label class="slider-label">boundary <input id="sliderBoundary" type="range" min="50" max="400" step="10" value="200"><span id="sliderBoundaryVal" class="slider-val">200</span></label>
+    </div>
   </body>
 </html>

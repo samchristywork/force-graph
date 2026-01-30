@@ -73,6 +73,5 @@ canvas.addEventListener("wheel", function(event) {
 }, { passive: false })
 
 window.addEventListener("resize", function() {
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight * .9
+  resizeCanvas()
 })
