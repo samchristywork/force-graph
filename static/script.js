@@ -32,9 +32,16 @@ function screenToLogical(sx, sy) {
 function makeSlider(id, valId, setter) {
   let el = document.getElementById(id)
   let valEl = document.getElementById(valId)
+  let saved = localStorage.getItem(id)
+  if (saved !== null) {
+    el.value = saved
+    valEl.textContent = saved
+    setter(parseFloat(saved))
+  }
   el.addEventListener("input", function() {
     setter(parseFloat(el.value))
     valEl.textContent = el.value
+    localStorage.setItem(id, el.value)
     frame = 0
     if (!loopRunning) loop()
   })
@@ -45,6 +52,16 @@ makeSlider("sliderL",         "sliderLVal",         v => physicsL = v)
 makeSlider("sliderDrag",      "sliderDragVal",      v => physicsDrag = v)
 makeSlider("sliderRepulsion", "sliderRepulsionVal", v => physicsRepulsion = v)
 makeSlider("sliderBoundary",  "sliderBoundaryVal",  v => physicsBoundary = v)
+
+// Persist checkboxes
+;(function() {
+  let savedToggle = localStorage.getItem("toggleNames")
+  if (savedToggle !== null) toggleNamesInput.checked = savedToggle === "true"
+  let savedFocus = localStorage.getItem("nameFocus")
+  if (savedFocus !== null) nameFocusInput.checked = savedFocus === "true"
+})()
+toggleNamesInput.addEventListener("change", () => localStorage.setItem("toggleNames", toggleNamesInput.checked))
+nameFocusInput.addEventListener("change",   () => localStorage.setItem("nameFocus",   nameFocusInput.checked))
 
 let frame = 0
 let loopRunning = false
