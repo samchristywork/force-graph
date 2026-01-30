@@ -90,22 +90,92 @@ function update_springs() {
   })
 }
 
-function update_repulsion() {
-  for (let i = 0; i < bodies.length; i++) {
-    for (let j = i + 1; j < bodies.length; j++) {
-      let dx = bodies[j].pos.x - bodies[i].pos.x
-      let dy = bodies[j].pos.y - bodies[i].pos.y
-      let dist = Math.max(Math.sqrt(dx * dx + dy * dy), 0.1)
+const THETA = 0.5
 
-      let force = -physicsRepulsion / (dist * dist * dist)
-      let fx = force * dx
-      let fy = force * dy
-      bodies[i].acc.x += fx / bodies[i].mass
-      bodies[i].acc.y += fy / bodies[i].mass
-      bodies[j].acc.x -= fx / bodies[j].mass
-      bodies[j].acc.y -= fy / bodies[j].mass
-    }
+function qtMakeNode(x, y, size) {
+  return { x, y, size, mass: 0, cx: 0, cy: 0, nw: null, ne: null, sw: null, se: null, body: null }
+}
+
+function qtInsertChild(node, body) {
+  let half = node.size / 2
+  let mx = node.x + half, my = node.y + half
+  if (body.pos.x < mx) {
+    if (body.pos.y < my) qtInsert(node.nw, body)
+    else qtInsert(node.sw, body)
+  } else {
+    if (body.pos.y < my) qtInsert(node.ne, body)
+    else qtInsert(node.se, body)
   }
+}
+
+function qtInsert(node, body) {
+  if (node.mass === 0) {
+    node.body = body
+    node.mass = body.mass
+    node.cx = body.pos.x
+    node.cy = body.pos.y
+    return
+  }
+  let total = node.mass + body.mass
+  node.cx = (node.cx * node.mass + body.pos.x * body.mass) / total
+  node.cy = (node.cy * node.mass + body.pos.y * body.mass) / total
+  node.mass = total
+  if (node.nw === null) {
+    if (node.size > 0.01) {
+      let half = node.size / 2
+      let mx = node.x + half, my = node.y + half
+      node.nw = qtMakeNode(node.x, node.y, half)
+      node.ne = qtMakeNode(mx, node.y, half)
+      node.sw = qtMakeNode(node.x, my, half)
+      node.se = qtMakeNode(mx, my, half)
+      if (node.body !== null) { qtInsertChild(node, node.body); node.body = null }
+      qtInsertChild(node, body)
+    }
+    return
+  }
+  qtInsertChild(node, body)
+}
+
+function qtApply(node, body) {
+  if (node === null || node.mass === 0) return
+  let dx = node.cx - body.pos.x
+  let dy = node.cy - body.pos.y
+  let dist = Math.sqrt(dx * dx + dy * dy)
+  if (node.nw === null) {
+    if (node.body === body) return
+    dist = Math.max(dist, 0.1)
+    let force = -physicsRepulsion * node.mass / (dist * dist * dist)
+    body.acc.x += force * dx / body.mass
+    body.acc.y += force * dy / body.mass
+    return
+  }
+  if (dist > 0 && node.size / dist < THETA) {
+    dist = Math.max(dist, 0.1)
+    let force = -physicsRepulsion * node.mass / (dist * dist * dist)
+    body.acc.x += force * dx / body.mass
+    body.acc.y += force * dy / body.mass
+  } else {
+    qtApply(node.nw, body)
+    qtApply(node.ne, body)
+    qtApply(node.sw, body)
+    qtApply(node.se, body)
+  }
+}
+
+function update_repulsion() {
+  if (bodies.length < 2) return
+  let minX = bodies[0].pos.x, maxX = minX
+  let minY = bodies[0].pos.y, maxY = minY
+  for (let b of bodies) {
+    if (b.pos.x < minX) minX = b.pos.x
+    if (b.pos.x > maxX) maxX = b.pos.x
+    if (b.pos.y < minY) minY = b.pos.y
+    if (b.pos.y > maxY) maxY = b.pos.y
+  }
+  let size = Math.max(maxX - minX, maxY - minY) + 1
+  let root = qtMakeNode(minX - size * 0.005, minY - size * 0.005, size * 1.01)
+  for (let b of bodies) qtInsert(root, b)
+  for (let b of bodies) qtApply(root, b)
 }
 
 function circular_boundary() {
