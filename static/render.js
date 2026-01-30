@@ -32,18 +32,30 @@ function draw_body(body) {
 }
 
 function draw_spring(spring) {
-  ctx.strokeStyle = "#222222"
-  ctx.lineWidth = 0.5
-  ctx.beginPath()
-
   let x1 = spring.body1.pos.x / 500 * canvas.width
   let y1 = spring.body1.pos.y / 500 * canvas.height
   let x2 = spring.body2.pos.x / 500 * canvas.width
   let y2 = spring.body2.pos.y / 500 * canvas.height
 
+  ctx.strokeStyle = "#222222"
+  ctx.lineWidth = 0.5
+  ctx.beginPath()
   ctx.moveTo(x1, y1)
   ctx.lineTo(x2, y2)
   ctx.stroke()
+
+  let angle = Math.atan2(y2 - y1, x2 - x1)
+  let arrowSize = 8
+  let tipX = x2 - 10 * Math.cos(angle)
+  let tipY = y2 - 10 * Math.sin(angle)
+
+  ctx.fillStyle = "#444444"
+  ctx.beginPath()
+  ctx.moveTo(tipX, tipY)
+  ctx.lineTo(tipX - arrowSize * Math.cos(angle - Math.PI / 6), tipY - arrowSize * Math.sin(angle - Math.PI / 6))
+  ctx.lineTo(tipX - arrowSize * Math.cos(angle + Math.PI / 6), tipY - arrowSize * Math.sin(angle + Math.PI / 6))
+  ctx.closePath()
+  ctx.fill()
 }
 
 function draw() {
