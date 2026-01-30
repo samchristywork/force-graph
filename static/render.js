@@ -72,7 +72,11 @@ function draw() {
   bodies.forEach(draw_body)
   ctx.restore()
 
+  let n = bodies.length
+  let e = springs.length
+  let maxEdges = n > 1 ? n * (n - 1) : 1
+  let density = (e / maxEdges).toFixed(3)
   ctx.fillStyle = "#222222"
   ctx.font = "12px Arial"
-  ctx.fillText(bodies.length + " bodies", canvas.width - 70, canvas.height - 10)
+  ctx.fillText("nodes: " + n + "  edges: " + e + "  density: " + density, 8, canvas.height - 10)
 }
