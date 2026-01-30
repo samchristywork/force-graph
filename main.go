@@ -37,5 +37,8 @@ func serve() {
 }
 
 func main() {
+	if err := loadColorDefinitions("./colors.json"); err != nil && !os.IsNotExist(err) {
+		log.Printf("warning: could not load colors.json: %v", err)
+	}
 	serve()
 }

@@ -20,7 +20,14 @@ type Node struct {
 	arcEnd   float64
 }
 
-var colorDefinitions = map[string]string{
+var colorDefinitions = map[string]string{}
+
+func loadColorDefinitions(path string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(data, &colorDefinitions)
 }
 
 func hashToColor(tag string) string {
@@ -135,6 +142,9 @@ func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float6
 	edges := make([]Edge, 0)
 
 	color := hashToColor(mytag)
+	if override, ok := colorDefinitions[root]; ok {
+		color = override
+	}
 
 	nodes = append(nodes, Node{name: root, color: color, depth: depth, arcBegin: arcBegin, arcEnd: arcEnd})
 
