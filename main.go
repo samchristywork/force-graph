@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 func dataHandler(w http.ResponseWriter, r *http.Request) {
@@ -12,6 +13,11 @@ func dataHandler(w http.ResponseWriter, r *http.Request) {
 
 	if tag == "" {
 		tag = "oxen"
+	}
+
+	if _, err := os.Stat("./testData/" + tag + ".dm"); os.IsNotExist(err) {
+		http.Error(w, `{"error":"tag not found"}`, http.StatusNotFound)
+		return
 	}
 
 	str := process_files("./testData", tag)

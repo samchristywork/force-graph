@@ -6,6 +6,7 @@ let nameInput = document.getElementById("name")
 let tagInput = document.getElementById("tag")
 let toggleNamesInput = document.getElementById("toggleNames")
 let nameFocusInput = document.getElementById("nameFocus")
+let errorDiv = document.getElementById("error")
 let restartButton = document.getElementById("restart")
 let pauseButton = document.getElementById("pause")
 let exportPngButton = document.getElementById("exportPng")
@@ -54,8 +55,17 @@ let springs = []
 function getTag(tag) {
   currentTag = tag
   fetch("data.json?tag=" + tag)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        errorDiv.textContent = "Tag not found: " + tag
+        errorDiv.style.display = "block"
+        return null
+      }
+      errorDiv.style.display = "none"
+      return response.json()
+    })
     .then(json => {
+      if (!json) return
       bodies = []
       springs = []
 
