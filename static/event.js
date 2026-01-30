@@ -9,6 +9,7 @@ canvas.addEventListener("mousedown", function(event) {
   mouseDownBody = body
   if (body) {
     current_body = body
+    showDetail(body)
   } else {
     panning = true
   }
