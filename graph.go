@@ -187,7 +187,7 @@ type graphJSON struct {
 	Springs []springJSON `json:"springs"`
 }
 
-func process_files(path string, root string) string {
+func process_files(path string, root string) (string, error) {
 	visited := make(map[string]bool)
 
 	nodes, edges := visitNode(path, root, 0, 0.0, 1.0, visited)
@@ -207,6 +207,9 @@ func process_files(path string, root string) string {
 		g.Springs = append(g.Springs, springJSON{Body1: edge.from, Body2: edge.to})
 	}
 
-	b, _ := json.Marshal(g)
-	return string(b)
+	b, err := json.Marshal(g)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }

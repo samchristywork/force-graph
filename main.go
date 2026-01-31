@@ -28,7 +28,12 @@ func dataHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	str := process_files("./testData", tag)
+	str, err := process_files("./testData", tag)
+	if err != nil {
+		log.Printf("error building graph for tag %q: %v", tag, err)
+		http.Error(w, `{"error":"internal server error"}`, http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(str))
 }
