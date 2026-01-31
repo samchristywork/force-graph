@@ -13,6 +13,7 @@ let detailColor = document.getElementById("detailColor")
 let detailDegree = document.getElementById("detailDegree")
 let restartButton = document.getElementById("restart")
 let pauseButton = document.getElementById("pause")
+let fitButton = document.getElementById("fit")
 let exportPngButton = document.getElementById("exportPng")
 let mouse = { x: 0, y: 0 }
 
@@ -217,6 +218,38 @@ pauseButton.addEventListener("click", function() {
   pauseButton.textContent = paused ? "Resume" : "Pause"
   if (!paused && !loopRunning) loop()
 })
+
+function fitView() {
+  if (bodies.length === 0) return
+  const padding = 40
+  let minX = bodies[0].pos.x, maxX = minX
+  let minY = bodies[0].pos.y, maxY = minY
+  for (let b of bodies) {
+    if (b.pos.x < minX) minX = b.pos.x
+    if (b.pos.x > maxX) maxX = b.pos.x
+    if (b.pos.y < minY) minY = b.pos.y
+    if (b.pos.y > maxY) maxY = b.pos.y
+  }
+  let cx = canvas.width / 2
+  let cy = canvas.height / 2
+  let pxMin = minX / 500 * canvas.width
+  let pxMax = maxX / 500 * canvas.width
+  let pyMin = minY / 500 * canvas.height
+  let pyMax = maxY / 500 * canvas.height
+  let w = Math.max(pxMax - pxMin, 1)
+  let h = Math.max(pyMax - pyMin, 1)
+  let zoom = Math.max(0.1, Math.min(
+    (canvas.width  - 2 * padding) / w,
+    (canvas.height - 2 * padding) / h,
+    4
+  ))
+  viewZoom = zoom
+  viewPanX = (cx - (pxMin + pxMax) / 2) * zoom
+  viewPanY = (cy - (pyMin + pyMax) / 2) * zoom
+  if (!loopRunning) draw()
+}
+
+fitButton.addEventListener("click", fitView)
 
 exportPngButton.addEventListener("click", function() {
   let a = document.createElement("a")
