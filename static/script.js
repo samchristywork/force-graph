@@ -78,7 +78,12 @@ function showDetail(body) {
   if (!body) { detailDiv.style.display = "none"; return }
   let degree = springs.filter(s => s.body1 === body || s.body2 === body).length
   detailLabel.textContent = "Label: " + body.label
-  detailColor.innerHTML = "Color: <span style='display:inline-block;width:12px;height:12px;background:" + body.color + ";border:1px solid #000;vertical-align:middle'></span> " + body.color
+  detailColor.textContent = "Color: "
+  let swatch = document.createElement("span")
+  swatch.style.cssText = "display:inline-block;width:12px;height:12px;border:1px solid #000;vertical-align:middle"
+  swatch.style.background = body.color
+  detailColor.appendChild(swatch)
+  detailColor.appendChild(document.createTextNode(" " + body.color))
   detailDegree.textContent = "Connections: " + degree
   detailDiv.style.display = "block"
 }
