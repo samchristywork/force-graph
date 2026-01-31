@@ -38,7 +38,7 @@ function draw_body(body) {
   ctx.fillStyle = body.color
   if (nameInput.value != "") {
     ctx.fillStyle = "#553333"
-    if (body.label.match(nameInput.value)) ctx.fillStyle = "#ff4444"
+    if (body.label.includes(nameInput.value)) ctx.fillStyle = "#ff4444"
   }
   ctx.beginPath()
   ctx.arc(x, y, 8, 0, 2 * Math.PI)
