@@ -67,7 +67,6 @@ function find_body(label) {
       return bodies[i]
     }
   }
-  console.log("Could not find body with label " + label)
   return null
 }
 

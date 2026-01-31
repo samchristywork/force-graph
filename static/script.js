@@ -193,9 +193,7 @@ function loop() {
 }
 
 tagInput.addEventListener("keyup", function(event) {
-  console.log(event.keyCode)
   if (event.keyCode === 13) {
-    console.log("enter")
     event.preventDefault()
     getTag(tagInput.value)
 
