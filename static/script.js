@@ -129,7 +129,7 @@ function getTag(tag) {
     })
 }
 
-let currentTag = "main"
+let currentTag = "literature"
 
 let urlParams = new URLSearchParams(window.location.search)
 let tagParam = urlParams.get("tag")
