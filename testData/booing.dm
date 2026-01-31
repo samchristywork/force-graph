@@ -1,3 +1,0 @@
-
-[almaty]
-[conflagrations]

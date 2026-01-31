@@ -1,3 +1,0 @@
-
-[oxen]
-[almaty]

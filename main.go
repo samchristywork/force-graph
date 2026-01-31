@@ -12,7 +12,7 @@ func dataHandler(w http.ResponseWriter, r *http.Request) {
 	tag := query.Get("tag")
 
 	if tag == "" {
-		tag = "oxen"
+		tag = "literature"
 	}
 
 	if _, err := os.Stat("./testData/" + tag + ".dm"); os.IsNotExist(err) {

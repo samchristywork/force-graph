@@ -1,3 +1,0 @@
-
-[veld]
-[almaty]

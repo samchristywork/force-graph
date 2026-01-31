@@ -1,3 +1,0 @@
-
-[applicators]
-[gawain]

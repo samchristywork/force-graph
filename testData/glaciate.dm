@@ -1,3 +1,0 @@
-
-[foolproof]
-[conflagrations]

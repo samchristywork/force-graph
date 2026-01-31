@@ -1,3 +1,0 @@
-
-[establishment]
-[hitchhike]
