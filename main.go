@@ -5,7 +5,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 )
+
+var validTag = regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
 
 func dataHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
@@ -13,6 +16,11 @@ func dataHandler(w http.ResponseWriter, r *http.Request) {
 
 	if tag == "" {
 		tag = "literature"
+	}
+
+	if !validTag.MatchString(tag) {
+		http.Error(w, `{"error":"invalid tag"}`, http.StatusBadRequest)
+		return
 	}
 
 	if _, err := os.Stat("./testData/" + tag + ".dm"); os.IsNotExist(err) {
