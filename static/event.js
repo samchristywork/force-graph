@@ -75,3 +75,27 @@ canvas.addEventListener("wheel", function(event) {
 window.addEventListener("resize", function() {
   resizeCanvas()
 })
+
+window.addEventListener("keydown", function(event) {
+  let tag = event.target.tagName
+  if (tag === "INPUT" || tag === "TEXTAREA") return
+
+  switch (event.key) {
+    case "f":
+      fitView()
+      break
+    case " ":
+      event.preventDefault()
+      paused = !paused
+      pauseButton.textContent = paused ? "Resume" : "⏸ Pause"
+      if (!paused && !loopRunning) loop()
+      break
+    case "r":
+      getTag(currentTag)
+      break
+    case "Escape":
+      nameInput.value = ""
+      if (!loopRunning) draw()
+      break
+  }
+})
