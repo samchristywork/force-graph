@@ -219,6 +219,11 @@ tagInput.addEventListener("keyup", function(event) {
   }
 })
 
+window.addEventListener("popstate", function() {
+  let tag = new URLSearchParams(window.location.search).get("tag") || "literature"
+  getTag(tag)
+})
+
 restartButton.addEventListener("click", function() {
   getTag(currentTag)
 })
