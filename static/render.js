@@ -2,14 +2,10 @@ function draw_grid() {
   let cx = canvas.width / 2
   let cy = canvas.height / 2
 
-  // Base grid spacing in pre-transform canvas pixels (50 logical units)
   let spacing = canvas.width / 500 * 50
-
-  // Adapt so dots are always 40–120 px apart on screen
   while (spacing * viewZoom < 40)  spacing *= 2
   while (spacing * viewZoom > 120) spacing /= 2
 
-  // Visible area in pre-transform canvas pixels
   let left   = (-cx - viewPanX) / viewZoom + cx
   let right  = (canvas.width  - cx - viewPanX) / viewZoom + cx
   let top    = (-cy - viewPanY) / viewZoom + cy
@@ -17,8 +13,6 @@ function draw_grid() {
 
   let startX = Math.floor(left  / spacing) * spacing
   let startY = Math.floor(top   / spacing) * spacing
-
-  // Dot radius fixed in screen pixels, converted to pre-transform space
   let r = 1.5 / viewZoom
 
   ctx.fillStyle = "#26264a"
@@ -31,10 +25,14 @@ function draw_grid() {
   }
 }
 
-function draw_body(body) {
+function draw_body(body, hovered, neighborSet) {
   let x = body.pos.x / 500 * canvas.width
   let y = body.pos.y / 500 * canvas.height
 
+  let dim = hovered && body !== hovered && !neighborSet.has(body)
+  let baseAlpha = dim ? 0.15 : 1.0
+
+  ctx.globalAlpha = baseAlpha
   ctx.fillStyle = body.color
   if (nameInput.value != "") {
     ctx.fillStyle = "#553333"
@@ -52,20 +50,26 @@ function draw_body(body) {
       let distance = Math.sqrt(mdx ** 2 + mdy ** 2)
       alpha = distance < 80 ? 0.95 : 0.15
     }
+    if (dim) alpha *= 0.2
     ctx.fillStyle = "rgba(210, 210, 240, " + alpha + ")"
     ctx.font = "12px system-ui, sans-serif"
     ctx.fillText(body.label, x + 10, y + 4)
   }
+  ctx.globalAlpha = 1.0
 }
 
-function draw_spring(spring) {
+function draw_spring(spring, hovered) {
   let x1 = spring.body1.pos.x / 500 * canvas.width
   let y1 = spring.body1.pos.y / 500 * canvas.height
   let x2 = spring.body2.pos.x / 500 * canvas.width
   let y2 = spring.body2.pos.y / 500 * canvas.height
 
-  ctx.strokeStyle = "rgba(100, 100, 180, 0.5)"
-  ctx.lineWidth = 1
+  let connected = !hovered || spring.body1 === hovered || spring.body2 === hovered
+  let lineAlpha  = connected ? 0.5 : 0.07
+  let arrowAlpha = connected ? 0.7 : 0.07
+
+  ctx.strokeStyle = "rgba(100, 100, 180, " + lineAlpha + ")"
+  ctx.lineWidth = connected ? 1.5 : 0.5
   ctx.beginPath()
   ctx.moveTo(x1, y1)
   ctx.lineTo(x2, y2)
@@ -76,7 +80,7 @@ function draw_spring(spring) {
   let tipX = x2 - (nodeRadius + 2) * Math.cos(angle)
   let tipY = y2 - (nodeRadius + 2) * Math.sin(angle)
 
-  ctx.fillStyle = "rgba(120, 120, 200, 0.7)"
+  ctx.fillStyle = "rgba(120, 120, 200, " + arrowAlpha + ")"
   ctx.beginPath()
   ctx.moveTo(tipX, tipY)
   ctx.lineTo(tipX - arrowSize * Math.cos(angle - Math.PI / 6), tipY - arrowSize * Math.sin(angle - Math.PI / 6))
@@ -85,9 +89,28 @@ function draw_spring(spring) {
   ctx.fill()
 }
 
+function get_hovered_body() {
+  let threshold = nodeRadius * 500 / canvas.width * 1.5
+  for (let b of bodies) {
+    let dx = b.pos.x - mouse.x
+    let dy = b.pos.y - mouse.y
+    if (Math.sqrt(dx * dx + dy * dy) < threshold) return b
+  }
+  return null
+}
+
 function draw() {
   ctx.fillStyle = "#131320"
   ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  let hovered = get_hovered_body()
+  let neighborSet = new Set()
+  if (hovered) {
+    for (let s of springs) {
+      if (s.body1 === hovered) neighborSet.add(s.body2)
+      if (s.body2 === hovered) neighborSet.add(s.body1)
+    }
+  }
 
   ctx.save()
   let cx = canvas.width / 2
@@ -96,8 +119,8 @@ function draw() {
   ctx.scale(viewZoom, viewZoom)
   ctx.translate(-cx, -cy)
   draw_grid()
-  springs.forEach(draw_spring)
-  bodies.forEach(draw_body)
+  springs.forEach(s => draw_spring(s, hovered))
+  bodies.forEach(b => draw_body(b, hovered, neighborSet))
   ctx.restore()
 
   let n = bodies.length

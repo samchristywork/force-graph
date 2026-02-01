@@ -35,6 +35,8 @@ canvas.addEventListener("mousemove", function(event) {
     current_body.pos.x = mouse.x
     current_body.pos.y = mouse.y
     if (!loopRunning) loop()
+  } else if (!loopRunning) {
+    draw()
   }
 })
 
