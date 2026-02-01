@@ -41,7 +41,7 @@ function draw_body(body) {
     if (body.label.includes(nameInput.value)) ctx.fillStyle = "#ff4444"
   }
   ctx.beginPath()
-  ctx.arc(x, y, 8, 0, 2 * Math.PI)
+  ctx.arc(x, y, nodeRadius, 0, 2 * Math.PI)
   ctx.fill()
 
   if (toggleNamesInput.checked) {
@@ -73,8 +73,8 @@ function draw_spring(spring) {
 
   let angle = Math.atan2(y2 - y1, x2 - x1)
   let arrowSize = 7
-  let tipX = x2 - 10 * Math.cos(angle)
-  let tipY = y2 - 10 * Math.sin(angle)
+  let tipX = x2 - (nodeRadius + 2) * Math.cos(angle)
+  let tipY = y2 - (nodeRadius + 2) * Math.sin(angle)
 
   ctx.fillStyle = "rgba(120, 120, 200, 0.7)"
   ctx.beginPath()

@@ -3,6 +3,7 @@ let physicsL = 10
 let physicsDrag = 5
 let physicsRepulsion = 1000000
 let physicsBoundary = 200
+let nodeRadius = 8
 
 function new_body(x, y, label, color) {
   return {

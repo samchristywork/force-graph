@@ -52,7 +52,8 @@ makeSlider("sliderK",         "sliderKVal",         v => physicsK = v)
 makeSlider("sliderL",         "sliderLVal",         v => physicsL = v)
 makeSlider("sliderDrag",      "sliderDragVal",      v => physicsDrag = v)
 makeSlider("sliderRepulsion", "sliderRepulsionVal", v => physicsRepulsion = v)
-makeSlider("sliderBoundary",  "sliderBoundaryVal",  v => physicsBoundary = v)
+makeSlider("sliderBoundary",    "sliderBoundaryVal",    v => physicsBoundary = v)
+makeSlider("sliderNodeRadius",  "sliderNodeRadiusVal",  v => nodeRadius = v)
 
 // Persist checkboxes
 ;(function() {
@@ -176,7 +177,7 @@ function get_body_under_mouse(event) {
     let dx = bodies[i].pos.x - pos.x
     let dy = bodies[i].pos.y - pos.y
     let dist = Math.sqrt(dx * dx + dy * dy)
-    if (dist < 10) {
+    if (dist < nodeRadius * 500 / canvas.width * 1.5) {
       return bodies[i]
     }
   }
