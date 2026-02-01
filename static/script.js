@@ -90,6 +90,8 @@ function showDetail(body) {
 
 function getTag(tag) {
   currentTag = tag
+  paused = false
+  pauseButton.textContent = "⏸ Pause"
   fetch("data.json?tag=" + tag)
     .then(response => {
       if (!response.ok) {
