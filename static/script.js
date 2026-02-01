@@ -11,6 +11,7 @@ let detailDiv = document.getElementById("detail")
 let detailLabel = document.getElementById("detailLabel")
 let detailColor = document.getElementById("detailColor")
 let detailDegree = document.getElementById("detailDegree")
+let copyLabelButton = document.getElementById("copyLabel")
 let restartButton = document.getElementById("restart")
 let pauseButton = document.getElementById("pause")
 let fitButton = document.getElementById("fit")
@@ -266,6 +267,16 @@ function fitView() {
 }
 
 fitButton.addEventListener("click", fitView)
+
+copyLabelButton.addEventListener("click", function() {
+  let label = detailLabel.textContent.replace(/^Label: /, "")
+  if (!label) return
+  navigator.clipboard.writeText(label).then(() => {
+    let orig = copyLabelButton.textContent
+    copyLabelButton.textContent = "Copied!"
+    setTimeout(() => copyLabelButton.textContent = orig, 1200)
+  })
+})
 
 exportPngButton.addEventListener("click", function() {
   let a = document.createElement("a")

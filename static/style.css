@@ -178,6 +178,7 @@ button:active { filter: brightness(0.85); }
 
 #detailLabel { font-weight: 600; color: var(--text); }
 #detailColor, #detailDegree { color: var(--dim); }
+#detail button { margin-top: 8px; font-size: 11px; padding: 2px 8px; width: 100%; }
 
 #error {
   display: none;
