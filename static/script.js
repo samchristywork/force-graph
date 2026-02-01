@@ -107,22 +107,27 @@ function getTag(tag) {
       bodies = []
       springs = []
 
+      let bodyMap = new Map()
       json.bodies.forEach(body => {
-        bodies.push(new_body(body.x, body.y, body.label, body.color))
+        let b = new_body(body.x, body.y, body.label, body.color)
+        bodies.push(b)
+        bodyMap.set(body.label, b)
       })
 
       json.springs.forEach(spring => {
-        let body1 = find_body(spring.body1)
-        let body2 = find_body(spring.body2)
+        let body1 = bodyMap.get(spring.body1)
+        let body2 = bodyMap.get(spring.body2)
 
         if (body1 == null) {
           body1 = new_body(250, 250, spring.body1)
           bodies.push(body1)
+          bodyMap.set(spring.body1, body1)
         }
 
         if (body2 == null) {
           body2 = new_body(250, 250, spring.body2)
           bodies.push(body2)
+          bodyMap.set(spring.body2, body2)
         }
         springs.push(new_spring(body1, body2))
       })
