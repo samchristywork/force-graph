@@ -45,7 +45,7 @@ canvas.addEventListener("mouseup", function(event) {
     let dist = Math.sqrt(dx * dx + dy * dy)
     if (dist < 5) {
       getTag(mouseDownBody.label)
-      window.history.pushState(null, null, window.location.pathname + "?tag=" + mouseDownBody.label)
+      window.history.pushState(null, null, window.location.pathname + "?tag=" + encodeURIComponent(mouseDownBody.label))
     }
   }
   current_body = null

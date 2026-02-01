@@ -92,7 +92,7 @@ function getTag(tag) {
   currentTag = tag
   paused = false
   pauseButton.textContent = "⏸ Pause"
-  fetch("data.json?tag=" + tag)
+  fetch("data.json?tag=" + encodeURIComponent(tag))
     .then(response => {
       if (!response.ok) {
         errorDiv.textContent = "Tag not found: " + tag
@@ -212,7 +212,7 @@ tagInput.addEventListener("keyup", function(event) {
     window.history.pushState(
       null,
       null,
-      window.location.pathname + "?tag=" + tagInput.value
+      window.location.pathname + "?tag=" + encodeURIComponent(tagInput.value)
     )
 
     tagInput.value = ""
