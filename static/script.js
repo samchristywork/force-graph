@@ -16,6 +16,7 @@ let restartButton = document.getElementById("restart")
 let pauseButton = document.getElementById("pause")
 let fitButton = document.getElementById("fit")
 let exportPngButton = document.getElementById("exportPng")
+let exportJsonButton = document.getElementById("exportJson")
 let mouse = { x: 0, y: 0 }
 
 let viewZoom = 1
@@ -283,6 +284,20 @@ exportPngButton.addEventListener("click", function() {
   a.href = canvas.toDataURL("image/png")
   a.download = "graph.png"
   a.click()
+})
+
+exportJsonButton.addEventListener("click", function() {
+  let data = {
+    tag: currentTag,
+    nodes: bodies.map(b => ({ label: b.label, color: b.color, x: b.pos.x, y: b.pos.y })),
+    edges: springs.map(s => ({ from: s.body1.label, to: s.body2.label }))
+  }
+  let blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
+  let a = document.createElement("a")
+  a.href = URL.createObjectURL(blob)
+  a.download = currentTag + ".json"
+  a.click()
+  URL.revokeObjectURL(a.href)
 })
 
 function resizeCanvas() {
