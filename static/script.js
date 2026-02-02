@@ -144,7 +144,7 @@ let currentTag = "literature"
 
 let urlParams = new URLSearchParams(window.location.search)
 let tagParam = urlParams.get("tag")
-tagInput.value = tagParam
+tagInput.value = tagParam ?? ""
 if (tagParam != null) {
   currentTag = tagParam
   getTag(tagParam)
