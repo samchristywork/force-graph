@@ -238,12 +238,12 @@ pauseButton.addEventListener("click", function() {
   if (!paused && !loopRunning) loop()
 })
 
-function fitView() {
-  if (bodies.length === 0) return
+function fitBodies(bs) {
+  if (!bs || bs.length === 0) return
   const padding = 40
-  let minX = bodies[0].pos.x, maxX = minX
-  let minY = bodies[0].pos.y, maxY = minY
-  for (let b of bodies) {
+  let minX = bs[0].pos.x, maxX = minX
+  let minY = bs[0].pos.y, maxY = minY
+  for (let b of bs) {
     if (b.pos.x < minX) minX = b.pos.x
     if (b.pos.x > maxX) maxX = b.pos.x
     if (b.pos.y < minY) minY = b.pos.y
@@ -268,7 +268,15 @@ function fitView() {
   if (!loopRunning) draw()
 }
 
+function fitView() { fitBodies(bodies) }
+
 fitButton.addEventListener("click", fitView)
+
+nameInput.addEventListener("input", function() {
+  if (!nameInput.value) return
+  let matched = bodies.filter(b => b.label.includes(nameInput.value))
+  if (matched.length > 0) fitBodies(matched)
+})
 
 copyLabelButton.addEventListener("click", function() {
   let label = detailLabel.textContent.replace(/^Label: /, "")
