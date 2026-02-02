@@ -146,10 +146,9 @@ let tagParam = urlParams.get("tag")
 tagInput.value = tagParam ?? ""
 if (tagParam != null) {
   currentTag = tagParam
-  getTag(tagParam)
-} else {
-  getTag(currentTag)
 }
+history.replaceState(null, "", window.location.pathname + "?tag=" + encodeURIComponent(currentTag))
+getTag(currentTag)
 
 function pretty_print(body) {
   return `pos: (${body.pos.x.toFixed(2)}, ${body.pos.y.toFixed(2)})<br>
