@@ -123,13 +123,13 @@ function getTag(tag) {
         let body2 = bodyMap.get(spring.body2)
 
         if (body1 == null) {
-          body1 = new_body(250, 250, spring.body1)
+          body1 = new_body(250, 250, spring.body1, "gray")
           bodies.push(body1)
           bodyMap.set(spring.body1, body1)
         }
 
         if (body2 == null) {
-          body2 = new_body(250, 250, spring.body2)
+          body2 = new_body(250, 250, spring.body2, "gray")
           bodies.push(body2)
           bodyMap.set(spring.body2, body2)
         }
