@@ -63,14 +63,6 @@ function update(body, dt) {
   body.acc = new_acc
 }
 
-function find_body(label) {
-  for (let i = 0; i < bodies.length; i++) {
-    if (bodies[i].label == label) {
-      return bodies[i]
-    }
-  }
-  return null
-}
 
 function update_bodies() {
   bodies.forEach(body => update(body, physicsDt))

@@ -73,7 +73,6 @@ let loopRunning = false
 let paused = false
 
 let current_body = null
-let current_body_name = null
 
 let bodies = []
 let springs = []
