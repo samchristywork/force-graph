@@ -271,7 +271,7 @@ function fitView() { fitBodies(bodies) }
 fitButton.addEventListener("click", fitView)
 
 nameInput.addEventListener("input", function() {
-  if (!nameInput.value) return
+  if (!nameInput.value) { fitView(); return }
   let matched = bodies.filter(b => b.label.includes(nameInput.value))
   if (matched.length > 0) fitBodies(matched)
 })
