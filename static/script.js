@@ -56,6 +56,7 @@ makeSlider("sliderDrag",      "sliderDragVal",      v => physicsDrag = v)
 makeSlider("sliderRepulsion", "sliderRepulsionVal", v => physicsRepulsion = v)
 makeSlider("sliderBoundary",    "sliderBoundaryVal",    v => physicsBoundary = v)
 makeSlider("sliderNodeRadius",  "sliderNodeRadiusVal",  v => nodeRadius = v)
+makeSlider("sliderDt",         "sliderDtVal",          v => physicsDt = v)
 
 // Persist checkboxes
 ;(function() {

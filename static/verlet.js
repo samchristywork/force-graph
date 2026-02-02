@@ -3,6 +3,7 @@ let physicsL = 10
 let physicsDrag = 5
 let physicsRepulsion = 1000000
 let physicsBoundary = 200
+let physicsDt = 0.01
 let nodeRadius = 8
 
 function new_body(x, y, label, color) {
@@ -72,7 +73,7 @@ function find_body(label) {
 }
 
 function update_bodies() {
-  bodies.forEach(body => update(body, 0.01))
+  bodies.forEach(body => update(body, physicsDt))
 }
 
 function update_springs() {
