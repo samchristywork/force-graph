@@ -5,6 +5,7 @@ let physicsRepulsion = 1000000
 let physicsBoundary = 200
 let physicsDt = 0.01
 let nodeRadius = 8
+let minDegree = 0
 
 function new_body(x, y, label, color) {
   return {

@@ -121,6 +121,13 @@ function draw() {
     }
   }
 
+  let degreeMap = new Map()
+  for (let b of bodies) degreeMap.set(b, 0)
+  for (let s of springs) {
+    degreeMap.set(s.body1, (degreeMap.get(s.body1) || 0) + 1)
+    degreeMap.set(s.body2, (degreeMap.get(s.body2) || 0) + 1)
+  }
+
   ctx.save()
   let cx = canvas.width / 2
   let cy = canvas.height / 2
@@ -128,8 +135,8 @@ function draw() {
   ctx.scale(viewZoom, viewZoom)
   ctx.translate(-cx, -cy)
   draw_grid()
-  springs.forEach(s => draw_spring(s, hovered))
-  bodies.forEach(b => draw_body(b, hovered, neighborSet))
+  springs.forEach(s => { if ((degreeMap.get(s.body1) || 0) >= minDegree && (degreeMap.get(s.body2) || 0) >= minDegree) draw_spring(s, hovered) })
+  bodies.forEach(b => { if ((degreeMap.get(b) || 0) >= minDegree) draw_body(b, hovered, neighborSet) })
   ctx.restore()
 
   let n = bodies.length
