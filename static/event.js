@@ -3,6 +3,7 @@ let mouseDownBody = null
 let panning = false
 
 canvas.addEventListener("mousedown", function(event) {
+  if (event.button !== 0) return
   frame = 0
   let body = get_body_under_mouse(event)
   mouseDownPos = { x: event.clientX, y: event.clientY }
@@ -40,7 +41,17 @@ canvas.addEventListener("mousemove", function(event) {
   }
 })
 
+canvas.addEventListener("contextmenu", function(event) {
+  event.preventDefault()
+  let body = get_body_under_mouse(event)
+  if (body) {
+    body.pinned = !body.pinned
+    if (!loopRunning) draw()
+  }
+})
+
 canvas.addEventListener("mouseup", function(event) {
+  if (event.button !== 0) return
   if (mouseDownBody) {
     let dx = event.clientX - mouseDownPos.x
     let dy = event.clientY - mouseDownPos.y

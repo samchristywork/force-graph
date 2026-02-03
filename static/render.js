@@ -42,6 +42,15 @@ function draw_body(body, hovered, neighborSet) {
   ctx.arc(x, y, nodeRadius, 0, 2 * Math.PI)
   ctx.fill()
 
+  if (body.pinned) {
+    ctx.globalAlpha = 1.0
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.9)"
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.arc(x, y, nodeRadius + 3, 0, 2 * Math.PI)
+    ctx.stroke()
+  }
+
   if (toggleNamesInput.checked) {
     let alpha = 0.85
     if (nameFocusInput.checked) {

@@ -14,6 +14,7 @@ function new_body(x, y, label, color) {
     vel: { x: 0.0, y: 0.0 },
     acc: { x: 0.0, y: 0.0 },
     mass: 1.0,
+    pinned: false,
   }
 }
 
@@ -28,7 +29,7 @@ function new_spring(body1, body2) {
 }
 
 function update(body, dt) {
-  if (body == current_body) {
+  if (body == current_body || body.pinned) {
     return
   }
 
@@ -173,7 +174,7 @@ function update_repulsion() {
 
 function circular_boundary() {
   bodies.forEach(body => {
-    if (body == current_body) {
+    if (body == current_body || body.pinned) {
       return
     }
 
