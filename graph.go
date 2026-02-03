@@ -77,25 +77,13 @@ func hashToColor(tag string) string {
 }
 
 func extractTag(contents []byte) string {
-	lines := strings.Split(string(contents), "\n")
-
-	if len(lines) < 3 {
-		return ""
+	for _, line := range strings.Split(string(contents), "\n") {
+		parts := strings.SplitN(strings.TrimSpace(line), " ", 2)
+		if len(parts) == 2 && parts[0] == "tags:" {
+			return parts[1]
+		}
 	}
-
-	thirdLine := strings.Split(lines[2], " ")
-
-	if len(thirdLine) < 2 {
-		return ""
-	}
-
-	if thirdLine[0] != "tags:" {
-		return ""
-	}
-
-	tag := thirdLine[1]
-
-	return tag
+	return ""
 }
 
 func visitNode(path, root string, depth float64, arcBegin float64, arcEnd float64, visited map[string]bool) ([]Node, []Edge) {
