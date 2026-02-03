@@ -13,6 +13,7 @@ let detailLabel = document.getElementById("detailLabel")
 let detailColor = document.getElementById("detailColor")
 let detailDegree = document.getElementById("detailDegree")
 let copyLabelButton = document.getElementById("copyLabel")
+let fullscreenButton = document.getElementById("fullscreen")
 let restartButton = document.getElementById("restart")
 let pauseButton = document.getElementById("pause")
 let fitButton = document.getElementById("fit")
@@ -236,6 +237,21 @@ tagInput.addEventListener("keyup", function(event) {
 window.addEventListener("popstate", function() {
   let tag = new URLSearchParams(window.location.search).get("tag") || "literature"
   getTag(tag)
+})
+
+fullscreenButton.addEventListener("click", function() {
+  let container = document.getElementById("graph-container")
+  if (!document.fullscreenElement) {
+    container.requestFullscreen()
+  } else {
+    document.exitFullscreen()
+  }
+})
+
+document.addEventListener("fullscreenchange", function() {
+  fullscreenButton.textContent = document.fullscreenElement ? "✖" : "⛶"
+  resizeCanvas()
+  if (!loopRunning) draw()
 })
 
 restartButton.addEventListener("click", function() {
