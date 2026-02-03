@@ -189,6 +189,12 @@ function get_body_under_mouse(event) {
   return null
 }
 
+function kinetic_energy() {
+  let ke = 0
+  for (let b of bodies) ke += b.vel.x * b.vel.x + b.vel.y * b.vel.y
+  return ke
+}
+
 function loop() {
   loopRunning = true
   if (paused) {
@@ -196,14 +202,15 @@ function loop() {
     return
   }
   frame += 1
-  if (frame < 3000) {
-    update_bodies()
-    update_springs()
-    update_repulsion()
-    draw()
-    update_fps()
-    circular_boundary()
+  update_bodies()
+  update_springs()
+  update_repulsion()
+  draw()
+  update_fps()
+  circular_boundary()
 
+  let settled = frame > 60 && kinetic_energy() < 1.0
+  if (frame < 3000 && !settled) {
     window.requestAnimationFrame(loop)
   } else {
     loopRunning = false
