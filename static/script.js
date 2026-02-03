@@ -7,6 +7,7 @@ let tagInput = document.getElementById("tag")
 let toggleNamesInput = document.getElementById("toggleNames")
 let nameFocusInput = document.getElementById("nameFocus")
 let errorDiv = document.getElementById("error")
+let loadingDiv = document.getElementById("loading")
 let detailDiv = document.getElementById("detail")
 let detailLabel = document.getElementById("detailLabel")
 let detailColor = document.getElementById("detailColor")
@@ -95,8 +96,10 @@ function getTag(tag) {
   currentTag = tag
   paused = false
   pauseButton.textContent = "⏸ Pause"
+  loadingDiv.style.display = "block"
   fetch("data.json?tag=" + encodeURIComponent(tag))
     .then(response => {
+      loadingDiv.style.display = "none"
       if (!response.ok) {
         errorDiv.textContent = "Tag not found: " + tag
         errorDiv.style.display = "block"
@@ -137,6 +140,7 @@ function getTag(tag) {
 
       loop()
     })
+    .catch(() => { loadingDiv.style.display = "none" })
 }
 
 let currentTag = "literature"
