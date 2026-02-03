@@ -249,6 +249,23 @@ kbd {
   backdrop-filter: blur(4px);
 }
 
+#tooltip {
+  display: none;
+  position: absolute;
+  background: rgba(23, 23, 42, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+#tooltip-label { font-weight: 600; color: var(--text); }
+#tooltip-degree { color: var(--dim); margin-top: 2px; }
+
 #error {
   display: none;
   position: absolute;

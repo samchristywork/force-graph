@@ -2,6 +2,23 @@ let mouseDownPos = null
 let mouseDownBody = null
 let panning = false
 
+let tooltipDiv = document.getElementById("tooltip")
+let tooltipLabel = document.getElementById("tooltip-label")
+let tooltipDegree = document.getElementById("tooltip-degree")
+
+function showTooltip(body, x, y) {
+  let degree = springs.filter(s => s.body1 === body || s.body2 === body).length
+  tooltipLabel.textContent = body.label
+  tooltipDegree.textContent = "Connections: " + degree
+  tooltipDiv.style.left = (x + 14) + "px"
+  tooltipDiv.style.top = (y + 14) + "px"
+  tooltipDiv.style.display = "block"
+}
+
+function hideTooltip() {
+  tooltipDiv.style.display = "none"
+}
+
 canvas.addEventListener("mousedown", function(event) {
   if (event.button !== 0) return
   frame = 0
@@ -24,6 +41,7 @@ canvas.addEventListener("mousemove", function(event) {
   mouse.y = pos.y
 
   if (panning && mouseDownPos) {
+    hideTooltip()
     viewPanX += event.clientX - mouseDownPos.x
     viewPanY += event.clientY - mouseDownPos.y
     mouseDownPos = { x: event.clientX, y: event.clientY }
@@ -33,11 +51,18 @@ canvas.addEventListener("mousemove", function(event) {
 
   frame = 0
   if (current_body) {
+    hideTooltip()
     current_body.pos.x = mouse.x
     current_body.pos.y = mouse.y
     if (!loopRunning) loop()
-  } else if (!loopRunning) {
-    draw()
+  } else {
+    let hovered = get_body_under_mouse(event)
+    if (hovered) {
+      showTooltip(hovered, event.clientX - rect.left, event.clientY - rect.top)
+    } else {
+      hideTooltip()
+    }
+    if (!loopRunning) draw()
   }
 })
 
