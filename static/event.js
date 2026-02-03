@@ -78,11 +78,26 @@ window.addEventListener("resize", function() {
   resizeCanvas()
 })
 
+let helpModal = document.getElementById("help-modal")
+
+function toggleHelp() {
+  helpModal.classList.toggle("visible")
+}
+
+document.getElementById("helpButton").addEventListener("click", toggleHelp)
+
+helpModal.addEventListener("click", function(event) {
+  if (event.target === helpModal) helpModal.classList.remove("visible")
+})
+
 window.addEventListener("keydown", function(event) {
   let tag = event.target.tagName
   if (tag === "INPUT" || tag === "TEXTAREA") return
 
   switch (event.key) {
+    case "?":
+      toggleHelp()
+      break
     case "f":
       fitView()
       break
@@ -96,8 +111,13 @@ window.addEventListener("keydown", function(event) {
       getTag(currentTag)
       break
     case "Escape":
-      nameInput.value = ""
-      if (!loopRunning) draw()
+      if (helpModal.classList.contains("visible")) {
+        helpModal.classList.remove("visible")
+      } else {
+        nameInput.value = ""
+        fitView()
+        if (!loopRunning) draw()
+      }
       break
   }
 })

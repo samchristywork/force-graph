@@ -11,6 +11,20 @@
     <script src="script.js" defer></script>
   </head>
   <body>
+    <div id="help-modal">
+      <div id="help-box">
+        <h3>Keyboard Shortcuts</h3>
+        <table>
+          <tr><td><kbd>f</kbd></td><td>Fit all nodes in view</td></tr>
+          <tr><td><kbd>Space</kbd></td><td>Pause / Resume physics</td></tr>
+          <tr><td><kbd>r</kbd></td><td>Restart simulation</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>Clear label filter</td></tr>
+          <tr><td><kbd>?</kbd></td><td>Show / hide this help</td></tr>
+        </table>
+        <p id="help-hint">Click outside or press <kbd>?</kbd> to close</p>
+      </div>
+    </div>
+
     <div id="graph-container">
       <canvas id="canvas"></canvas>
       <div id="detail">
@@ -38,6 +52,7 @@
         <label class="check-label"><input id="toggleNames" type="checkbox" checked> Labels</label>
         <label class="check-label"><input id="nameFocus" type="checkbox"> Focus</label>
       </div>
+      <button id="helpButton" title="Keyboard shortcuts (?)">?</button>
       <div id="fps"></div>
     </div>
 
