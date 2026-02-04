@@ -101,6 +101,7 @@ function draw_spring(spring, hovered) {
 function get_hovered_body() {
   let threshold = nodeRadius * 500 / canvas.width * 1.5
   for (let b of bodies) {
+    if (hiddenColors.has(b.color)) continue
     let dx = b.pos.x - mouse.x
     let dy = b.pos.y - mouse.y
     if (Math.sqrt(dx * dx + dy * dy) < threshold) return b
@@ -135,8 +136,14 @@ function draw() {
   ctx.scale(viewZoom, viewZoom)
   ctx.translate(-cx, -cy)
   draw_grid()
-  springs.forEach(s => { if ((degreeMap.get(s.body1) || 0) >= minDegree && (degreeMap.get(s.body2) || 0) >= minDegree) draw_spring(s, hovered) })
-  bodies.forEach(b => { if ((degreeMap.get(b) || 0) >= minDegree) draw_body(b, hovered, neighborSet) })
+  springs.forEach(s => {
+    if (hiddenColors.has(s.body1.color) || hiddenColors.has(s.body2.color)) return
+    if ((degreeMap.get(s.body1) || 0) >= minDegree && (degreeMap.get(s.body2) || 0) >= minDegree) draw_spring(s, hovered)
+  })
+  bodies.forEach(b => {
+    if (hiddenColors.has(b.color)) return
+    if ((degreeMap.get(b) || 0) >= minDegree) draw_body(b, hovered, neighborSet)
+  })
   ctx.restore()
 
   let n = bodies.length

@@ -249,6 +249,45 @@ kbd {
   backdrop-filter: blur(4px);
 }
 
+#color-legend {
+  display: none;
+  position: absolute;
+  bottom: 28px;
+  right: 10px;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.color-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: rgba(23, 23, 42, 0.88);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--text);
+  user-select: none;
+  transition: opacity 0.15s;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+.color-chip:hover { border-color: var(--accent); }
+.color-chip.hidden { opacity: 0.35; }
+
+.color-chip-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+
 #tooltip {
   display: none;
   position: absolute;

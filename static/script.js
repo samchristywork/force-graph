@@ -8,6 +8,7 @@ let toggleNamesInput = document.getElementById("toggleNames")
 let nameFocusInput = document.getElementById("nameFocus")
 let errorDiv = document.getElementById("error")
 let loadingDiv = document.getElementById("loading")
+let colorLegendDiv = document.getElementById("color-legend")
 let detailDiv = document.getElementById("detail")
 let detailLabel = document.getElementById("detailLabel")
 let detailColor = document.getElementById("detailColor")
@@ -80,6 +81,34 @@ let current_body = null
 
 let bodies = []
 let springs = []
+let hiddenColors = new Set()
+
+function updateColorLegend() {
+  let colors = [...new Set(bodies.map(b => b.color))].sort()
+  colorLegendDiv.innerHTML = ""
+  if (colors.length <= 1) { colorLegendDiv.style.display = "none"; return }
+  colors.forEach(color => {
+    let chip = document.createElement("div")
+    chip.className = "color-chip" + (hiddenColors.has(color) ? " hidden" : "")
+    let swatch = document.createElement("div")
+    swatch.className = "color-chip-swatch"
+    swatch.style.background = color
+    chip.appendChild(swatch)
+    chip.appendChild(document.createTextNode(color))
+    chip.addEventListener("click", function() {
+      if (hiddenColors.has(color)) {
+        hiddenColors.delete(color)
+        chip.classList.remove("hidden")
+      } else {
+        hiddenColors.add(color)
+        chip.classList.add("hidden")
+      }
+      if (!loopRunning) draw()
+    })
+    colorLegendDiv.appendChild(chip)
+  })
+  colorLegendDiv.style.display = "flex"
+}
 
 function showDetail(body) {
   if (!body) { detailDiv.style.display = "none"; return }
@@ -99,6 +128,7 @@ function getTag(tag) {
   currentTag = tag
   paused = false
   pauseButton.textContent = "⏸ Pause"
+  hiddenColors.clear()
   loadingDiv.style.display = "block"
   fetch("data.json?tag=" + encodeURIComponent(tag))
     .then(response => {
@@ -141,6 +171,7 @@ function getTag(tag) {
         springs.push(new_spring(body1, body2))
       })
 
+      updateColorLegend()
       loop()
     })
     .catch(() => { loadingDiv.style.display = "none" })
@@ -182,6 +213,7 @@ function get_body_under_mouse(event) {
   let rect = canvas.getBoundingClientRect()
   let pos = screenToLogical(event.clientX - rect.left, event.clientY - rect.top)
   for (let i = 0; i < bodies.length; i++) {
+    if (hiddenColors.has(bodies[i].color)) continue
     let dx = bodies[i].pos.x - pos.x
     let dy = bodies[i].pos.y - pos.y
     let dist = Math.sqrt(dx * dx + dy * dy)
