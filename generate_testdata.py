@@ -73,7 +73,7 @@ GRAPH = {
     "dubliners":                ["alienation", "epiphany"],
     "the_waste_land":           ["alienation", "myth", "mortality"],
 
-    # Themes
+    # Themes (no period tag)
     "epic":                   ["heroism", "homecoming"],
     "tragedy":                [],
     "comedy":                 [],
@@ -112,6 +112,58 @@ GRAPH = {
 }
 
 
+# Maps each node to its color-group tag.
+# "realism"/"modernism" chosen over "realist"/"modernist" to avoid color collisions.
+NODE_TAG = {
+    "ancient":     "ancient",
+    "medieval":    "medieval",
+    "renaissance": "renaissance",
+    "romantic":    "romantic",
+    "realist":     "realism",
+    "modernist":   "modernism",
+
+    # Ancient authors and works
+    "homer":    "ancient",  "sophocles": "ancient",  "virgil":   "ancient",
+    "iliad":    "ancient",  "odyssey":   "ancient",  "aeneid":   "ancient",
+    "oedipus":  "ancient",  "antigone":  "ancient",  "epic":     "ancient",
+
+    # Medieval authors and works
+    "dante":           "medieval",  "chaucer":          "medieval",
+    "divine_comedy":   "medieval",  "canterbury_tales":  "medieval",
+
+    # Renaissance authors and works
+    "shakespeare": "renaissance",  "cervantes":  "renaissance",
+    "montaigne":   "renaissance",  "hamlet":     "renaissance",
+    "macbeth":     "renaissance",  "midsummer":  "renaissance",
+    "don_quixote": "renaissance",  "essays":     "renaissance",
+    "humanism":    "renaissance",
+
+    # Romantic authors and works
+    "austen":  "romantic",  "goethe":   "romantic",  "keats":    "romantic",
+    "byron":   "romantic",  "faust":    "romantic",  "odes":     "romantic",
+    "don_juan":"romantic",  "idealism": "romantic",
+    "pride_and_prejudice": "romantic",  "emma": "romantic",
+
+    # Realist authors and works
+    "dickens":    "realism",  "tolstoy":    "realism",
+    "dostoevsky": "realism",  "flaubert":   "realism",  "chekhov": "realism",
+    "great_expectations":      "realism",  "bleak_house":            "realism",
+    "war_and_peace":           "realism",  "anna_karenina":          "realism",
+    "crime_and_punishment":    "realism",  "the_brothers_karamazov": "realism",
+    "madame_bovary":           "realism",  "the_cherry_orchard":     "realism",
+    "the_seagull":             "realism",  "social_critique":        "realism",
+
+    # Modernist authors and works
+    "kafka":   "modernism",  "woolf":   "modernism",
+    "joyce":   "modernism",  "eliot":   "modernism",
+    "the_trial":            "modernism",  "the_metamorphosis":      "modernism",
+    "mrs_dalloway":         "modernism",  "to_the_lighthouse":      "modernism",
+    "ulysses":              "modernism",  "dubliners":              "modernism",
+    "the_waste_land":       "modernism",  "stream_of_consciousness":"modernism",
+    "existentialism":       "modernism",
+}
+
+
 def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -122,6 +174,8 @@ def main():
     for node, children in GRAPH.items():
         path = os.path.join(OUTPUT_DIR, f"{node}.dm")
         with open(path, "w") as f:
+            if node in NODE_TAG:
+                f.write(f"tags: {NODE_TAG[node]}\n")
             for child in children:
                 f.write(f"[{child}]\n")
 
