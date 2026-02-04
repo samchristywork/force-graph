@@ -17,6 +17,7 @@ let fullscreenButton = document.getElementById("fullscreen")
 let restartButton = document.getElementById("restart")
 let pauseButton = document.getElementById("pause")
 let fitButton = document.getElementById("fit")
+let resetViewButton = document.getElementById("resetView")
 let exportPngButton = document.getElementById("exportPng")
 let exportJsonButton = document.getElementById("exportJson")
 let mouse = { x: 0, y: 0 }
@@ -296,7 +297,15 @@ function fitBodies(bs) {
 
 function fitView() { fitBodies(bodies) }
 
+function resetView() {
+  viewZoom = 1
+  viewPanX = 0
+  viewPanY = 0
+  if (!loopRunning) draw()
+}
+
 fitButton.addEventListener("click", fitView)
+resetViewButton.addEventListener("click", resetView)
 
 nameInput.addEventListener("input", function() {
   if (!nameInput.value) { fitView(); return }

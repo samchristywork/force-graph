@@ -137,6 +137,9 @@ window.addEventListener("keydown", function(event) {
     case "F":
       fullscreenButton.click()
       break
+    case "0":
+      resetView()
+      break
     case "f":
       fitView()
       break
