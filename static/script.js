@@ -179,6 +179,18 @@ function getTag(tag) {
 
 let currentTag = "literature"
 
+fetch("/tags")
+  .then(r => r.json())
+  .then(tags => {
+    let dl = document.getElementById("tag-suggestions")
+    tags.forEach(t => {
+      let opt = document.createElement("option")
+      opt.value = t
+      dl.appendChild(opt)
+    })
+  })
+  .catch(() => {})
+
 let urlParams = new URLSearchParams(window.location.search)
 let tagParam = urlParams.get("tag")
 tagInput.value = tagParam ?? ""
