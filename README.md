@@ -22,6 +22,21 @@ controls that appear alongside the graph.
 
 ## Features
 
+- Force-directed layout using Verlet integration
+- Barnes-Hut quadtree for efficient repulsion (O(n log n))
+- Convergence-based simulation termination via kinetic energy threshold
+- Node coloring by period/group tags with per-color visibility toggles
+- Drag nodes, pan, and scroll-to-zoom
+- Pin nodes in place with right-click
+- Hover tooltip showing label and connection count
+- Click a node to navigate to its graph
+- Degree-based visibility filter to hide low-connectivity nodes
+- Label filter with auto-fit to matching nodes
+- Fullscreen mode
+- Export graph as PNG or JSON
+- `/tags` endpoint with autocomplete for the tag input
+- Keyboard shortcuts for common actions
+
 ## Usage
 
 ## Keyboard Shortcuts
