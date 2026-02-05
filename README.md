@@ -66,6 +66,24 @@ python3 generate_testdata.py
 
 ## Data Format
 
+Each `.dm` file represents one node. Links to other nodes are written as
+`[node_name]` on separate lines. An optional `tags:` line sets the color group:
+
+```
+tags: ancient
+[iliad]
+[odyssey]
+[epic]
+```
+
+Color overrides for specific nodes can be placed in `colors.json`:
+
+```json
+{
+  "mynode": "steelblue"
+}
+```
+
 ## Dependencies
 
 ## License
