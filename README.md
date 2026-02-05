@@ -54,6 +54,16 @@ python3 generate_testdata.py
 
 ## Keyboard Shortcuts
 
+| Key       | Action                        |
+|-----------|-------------------------------|
+| `f`       | Fit all nodes in view         |
+| `0`       | Reset zoom and pan to default |
+| `Shift+F` | Toggle fullscreen             |
+| `Space`   | Pause / resume physics        |
+| `r`       | Restart simulation            |
+| `Esc`     | Clear label filter            |
+| `?`       | Show / hide shortcut help     |
+
 ## Data Format
 
 ## Dependencies
