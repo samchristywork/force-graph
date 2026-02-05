@@ -86,6 +86,10 @@ Color overrides for specific nodes can be placed in `colors.json`:
 
 ## Dependencies
 
+```
+go
+```
+
 ## License
 
 This work is licensed under the GNU General Public License version 3 (GPLv3).
