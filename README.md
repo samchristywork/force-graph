@@ -39,6 +39,19 @@ controls that appear alongside the graph.
 
 ## Usage
 
+```
+go run .
+```
+
+Then open `http://localhost:8080` in a browser. Use the tag input to navigate
+between graphs, or click any node to follow its connections.
+
+To regenerate the included test dataset:
+
+```
+python3 generate_testdata.py
+```
+
 ## Keyboard Shortcuts
 
 ## Data Format
