@@ -16,6 +16,10 @@ Nodes are colored by a `tags:` field in each `.dm` file, allowing related nodes
 to be grouped visually. Color groups can be toggled on and off with the chip
 controls that appear alongside the graph.
 
+<p align="center">
+  <img src="./assets/screenshot.png" />
+</p>
+
 ## Features
 
 ## Usage
